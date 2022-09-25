@@ -12,4 +12,21 @@ public class roller {
         rollerServo = hwmap.get(Servo.class, "roller Servo");
         this.telemetry = telemetry;
     }
+
+    public void intake(){
+        rollerServo.setPosition(1);
+    }
+
+    public void outake(){
+        rollerServo.setPosition(0);
+    }
+
+    public double setPosition(double pos){
+        rollerServo.setPosition(pos);
+        return rollerServo.getPosition();
+    }
+
+    public void setDirection(Servo.Direction direction){
+        rollerServo.setDirection(direction);
+    }
 }
