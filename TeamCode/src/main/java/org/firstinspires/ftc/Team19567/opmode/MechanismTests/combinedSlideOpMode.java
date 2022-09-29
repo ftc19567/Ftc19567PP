@@ -14,32 +14,20 @@ public class combinedSlideOpMode extends OpMode {
     }
     @Override
     public void loop(){
-        if(gamepad1.a && !aIsPressed){
-            if(testCombinedSlides.isHorizontallyExtended())
-            {
-                testCombinedSlides.extendHorizontally();
-            }
-            else if(!testCombinedSlides.isHorizontallyExtended()){
-                testCombinedSlides.retractHorizontally();
-            }
-            else{
-
-            }
-            aIsPressed = gamepad1.a;
+        if(gamepad1.dpad_up){
+            testCombinedSlides.extendVertically();;
         }
-        if(gamepad1.b && !bIsPressed)
-        {
-            if(testCombinedSlides.isVerticallyExtend())
-            {
-                testCombinedSlides.extendVertically();
-            }
-            else if(!testCombinedSlides.isVerticallyExtend()){
-                testCombinedSlides.retractVertically();
-            }
-            else{
-
-            }
-            bIsPressed = gamepad1.b;
+        else if(gamepad1.dpad_down){
+            testCombinedSlides.retractVertically();
+        }else{
+            testCombinedSlides.stopVertically();
+        }
+        if(gamepad1.dpad_right){
+            testCombinedSlides.extendHorizontally();
+        }else if(gamepad1.dpad_left){
+            testCombinedSlides.retractHorizontally();
+        }else{
+            testCombinedSlides.stopVertically();
         }
     }
 }

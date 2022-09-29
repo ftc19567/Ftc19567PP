@@ -15,18 +15,13 @@ public class verticalTestOpMode extends OpMode {
 
     @Override
     public void loop() {
-        if(gamepad1.a && !aIsPressed){
-            if(!testVerticalSlide.isExtended())
-            {
-                testVerticalSlide.extend();
-            }
-            else if(!testVerticalSlide.isExtended()){
-                testVerticalSlide.retract();
-            }
-            else{
-
-            }
-            aIsPressed = gamepad1.a;
+        if(gamepad1.dpad_up){
+            testVerticalSlide.extend();;
+        }
+        else if(gamepad1.dpad_down){
+            testVerticalSlide.retract();
+        }else{
+            testVerticalSlide.stop();
         }
     }
 }

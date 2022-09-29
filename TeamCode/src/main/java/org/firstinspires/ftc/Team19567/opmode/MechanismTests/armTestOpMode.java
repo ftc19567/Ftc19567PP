@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.Team19567.mechanisms.arm;
 
 public class armTestOpMode extends OpMode {
-    boolean aisPressed = false;
+    boolean xisPressed;
     arm testArm;
     @Override
     public void init(){
@@ -14,10 +14,10 @@ public class armTestOpMode extends OpMode {
     }
     @Override
     public void loop(){
-        if(gamepad1.a && !aisPressed){
+        if(gamepad1.x && !xisPressed){
             testArm.flip();
         }
-        aisPressed = gamepad1.a;
+        xisPressed = gamepad1.x;
 
     }
 }

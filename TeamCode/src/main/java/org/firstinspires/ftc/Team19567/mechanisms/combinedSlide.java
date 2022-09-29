@@ -1,68 +1,50 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class combinedSlide {
-    boolean isHorizontallyExtended;
-    boolean isVerticallyExtend;
-    Servo horizontalServo;
-    Servo verticalServo;
+    verticalSlide combinedVerticalSlide;
+    horizontalSlide combinedHorizontalSlide;
     Telemetry telemetry;
     public combinedSlide(HardwareMap hwMap, Telemetry telemetry){
         this.telemetry = telemetry;
-        verticalServo = hwMap.get(Servo.class, "verticalServo");
-        horizontalServo = hwMap.get(Servo.class, "horizontalServo");
-        isVerticallyExtend = false;
-        isHorizontallyExtended = false;
+        combinedHorizontalSlide = new horizontalSlide(hwMap, telemetry);
+        combinedVerticalSlide = new verticalSlide(hwMap, telemetry);
     }
-
-    public boolean isHorizontallyExtended() {
-        return isHorizontallyExtended;
-    }
-
-    public boolean isVerticallyExtend() {
-        return isVerticallyExtend;
-    }
+    
 
     public void extendHorizontally(){
-        horizontalServo.setPosition(1);
-        isHorizontallyExtended = true;
+        combinedHorizontalSlide.extend();
     }
 
     public void retractHorizontally(){
-        horizontalServo.setPosition(0);
-        isHorizontallyExtended= false;
+        combinedHorizontalSlide.retract();
+    }
+    public void stopHorizontally(){
+        combinedHorizontalSlide.stop();
     }
 
     public void extendVertically(){
-        verticalServo.setPosition(1);
-        isVerticallyExtend = true;
+        combinedVerticalSlide.extend();
     }
 
     public void retractVertically(){
-        verticalServo.setPosition(0);
-        isVerticallyExtend= false;
+        combinedVerticalSlide.retract();
     }
 
-    public double sethorizontalServo(double pos) {
-        horizontalServo.setPosition(pos);
-        return horizontalServo.getPosition();
+    public void stopVertically(){
+        combinedVerticalSlide.stop();
     }
 
-    public double setverticalServo(double pos) {
-        verticalServo.setPosition(pos);
-        return verticalServo.getPosition();
+    public void sethorizontalMotor(double pos) {
+        combinedHorizontalSlide.setMotorPower(pos);
     }
 
-    public void sethorizontalServoDirection(Servo.Direction direction){
-        horizontalServo.setDirection(direction);
+    public void setverticalMotor(double pos) {
+        combinedVerticalSlide.setMotorPower(pos);
     }
 
-    public void setverticalServoDirection(Servo.Direction direction){
-        verticalServo.setDirection(direction);
-
-    }
 }

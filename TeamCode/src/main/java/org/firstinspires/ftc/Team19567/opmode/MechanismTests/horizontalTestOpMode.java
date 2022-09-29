@@ -14,18 +14,13 @@ public class horizontalTestOpMode extends OpMode {
 
     @Override
     public void loop() {
-        if(gamepad1.a && !aIsPressed){
-            if(!testHorizontalSlide.isExtended())
-            {
-                testHorizontalSlide.extend();
-            }
-            else if(!testHorizontalSlide.isExtended()){
-                testHorizontalSlide.retract();
-            }
-            else{
-
-            }
-            aIsPressed = gamepad1.a;
+        if(gamepad1.dpad_right){
+            testHorizontalSlide.extend();
+        }
+        else if(gamepad1.dpad_left){
+            testHorizontalSlide.retract();
+        }else{
+            testHorizontalSlide.stop();
         }
     }
 }

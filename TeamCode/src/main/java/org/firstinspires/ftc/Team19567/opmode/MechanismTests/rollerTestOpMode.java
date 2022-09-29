@@ -18,11 +18,11 @@ public class rollerTestOpMode extends OpMode {
         if(gamepad1.a && !aIsPressed)
         {
             testRoller.intake();
-            aIsPressed = gamepad1.a;
         }
         else if(gamepad1.b && !bIsPressed){
             testRoller.outake();
-            bIsPressed = gamepad1.b;
         }
+        bIsPressed = gamepad1.b;
+        aIsPressed = gamepad1.a;
     }
 }
