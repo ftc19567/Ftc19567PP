@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class verticalSlide {
+public class verticalSlide extends Mechanism{
     DcMotor leftVerticalMotor;
     DcMotor rightVerticalMotor;
     Telemetry telemetry;
-    boolean isExtended;
-
     public verticalSlide(HardwareMap hwMap, Telemetry telemetry){
+        setMode(hwMap, telemetry);
+    }
+
+    @Override
+    public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         leftVerticalMotor = hwMap.get(DcMotor.class, "leftVerticalMotor");
         leftVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -20,27 +23,31 @@ public class verticalSlide {
         rightVerticalMotor = hwMap.get(DcMotor.class, "rightVerticalMotor");
         rightVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightVerticalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        isExtended = false;
+    }
+    @Override
+    public void extend(double pow){
+        rightVerticalMotor.setPower(pow);
+        leftVerticalMotor.setPower(pow);
+    }
+    @Override
+    public void retract(double pow){
+        rightVerticalMotor.setPower(-pow);
+        leftVerticalMotor.setPower(-pow);
     }
 
-    public void extend(){
-        leftVerticalMotor.setPower(1);
-        rightVerticalMotor.setPower(1);
-    }
-
-    public void retract(){
-        leftVerticalMotor.setPower(-1);
-        rightVerticalMotor.setPower(-1);
-    }
-
+    @Override
     public void stop(){
-        leftVerticalMotor.setPower(0);
         rightVerticalMotor.setPower(0);
+        leftVerticalMotor.setPower(0);
     }
 
-
-    public void setMotorPower(double pos){
-        leftVerticalMotor.setPower(pos);
-        rightVerticalMotor.setPower(pos);
+    @Override
+    public void setPosition(int pos) {
+        rightVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightVerticalMotor.setTargetPosition(pos);
+        leftVerticalMotor.setTargetPosition(pos);
+        rightVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

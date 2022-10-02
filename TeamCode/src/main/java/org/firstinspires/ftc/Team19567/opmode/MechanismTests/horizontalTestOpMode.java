@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
 
+import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
@@ -15,10 +17,10 @@ public class horizontalTestOpMode extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_right){
-            testHorizontalSlide.extend();
+            testHorizontalSlide.extend(HorizontalSpeed);
         }
         else if(gamepad1.dpad_left){
-            testHorizontalSlide.retract();
+            testHorizontalSlide.retract(HorizontalSpeed);
         }else{
             testHorizontalSlide.stop();
         }

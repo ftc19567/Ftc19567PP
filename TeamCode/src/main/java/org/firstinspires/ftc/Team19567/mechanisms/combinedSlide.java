@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
+
+import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
+import static org.firstinspires.ftc.Team19567.util.MechanismConstants.VerticalSpeed;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -17,22 +21,23 @@ public class combinedSlide {
     
 
     public void extendHorizontally(){
-        combinedHorizontalSlide.extend();
+        combinedHorizontalSlide.extend(HorizontalSpeed);
     }
 
     public void retractHorizontally(){
-        combinedHorizontalSlide.retract();
+        combinedHorizontalSlide.retract(HorizontalSpeed);
     }
+
     public void stopHorizontally(){
         combinedHorizontalSlide.stop();
     }
 
     public void extendVertically(){
-        combinedVerticalSlide.extend();
+        combinedVerticalSlide.extend(VerticalSpeed);
     }
 
     public void retractVertically(){
-        combinedVerticalSlide.retract();
+        combinedVerticalSlide.retract(VerticalSpeed);
     }
 
     public void stopVertically(){

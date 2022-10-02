@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
 
+import static org.firstinspires.ftc.Team19567.util.MechanismConstants.VerticalSpeed;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -16,10 +18,10 @@ public class verticalTestOpMode extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up){
-            testVerticalSlide.extend();;
+            testVerticalSlide.extend(VerticalSpeed);;
         }
         else if(gamepad1.dpad_down){
-            testVerticalSlide.retract();
+            testVerticalSlide.retract(VerticalSpeed);
         }else{
             testVerticalSlide.stop();
         }
