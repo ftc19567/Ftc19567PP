@@ -44,12 +44,12 @@ public class combinedSlide {
         combinedVerticalSlide.stop();
     }
 
-    public void sethorizontalMotor(double pos) {
-        combinedHorizontalSlide.setMotorPower(pos);
+    public void sethorizontalPosition(int pos) {
+        combinedHorizontalSlide.setPosition(pos);
     }
 
-    public void setverticalMotor(double pos) {
-        combinedVerticalSlide.setMotorPower(pos);
+    public void setverticalMotor(int pos) {
+        combinedVerticalSlide.setPosition(pos);
     }
 
 }

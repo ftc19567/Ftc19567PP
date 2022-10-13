@@ -5,10 +5,11 @@ import static org.firstinspires.ftc.Team19567.util.MechanismConstants.SecondArmF
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class arm extends Mechanism{
+public class arm implements MechanismTemplate{
     Telemetry telemetry;
     Servo armServo;
     public arm(HardwareMap hwMap, Telemetry telemetry){
@@ -22,7 +23,7 @@ public class arm extends Mechanism{
         armServo.setDirection(Servo.Direction.FORWARD);
     }
 
-    @Override
+
     public double flip(){
         if(armServo.getPosition() == FirstArmFlipPosition){
             armServo.setPosition(SecondArmFlipPosition);
@@ -33,12 +34,12 @@ public class arm extends Mechanism{
         return armServo.getPosition();
     }
 
-    @Override
+
     public void setPosition(int pos){
-        armServo.setPosition(pos);
+        armServo.setPosition(Range.clip(pos, armServo.MIN_POSITION, armServo.MAX_POSITION));
     }
 
-    @Override
+
     public void setDirection(Servo.Direction direction){
         armServo.setDirection(direction);
     }

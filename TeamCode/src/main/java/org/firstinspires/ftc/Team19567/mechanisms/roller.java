@@ -5,10 +5,11 @@ import static org.firstinspires.ftc.Team19567.util.MechanismConstants.OutakeServ
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class roller extends Mechanism{
+public class roller implements MechanismTemplate{
     Servo rollerServo;
     Telemetry telemetry;
     public roller(HardwareMap hwmap, Telemetry telemetry){
@@ -20,19 +21,19 @@ public class roller extends Mechanism{
         rollerServo = hwMap.get(Servo.class, "roller Servo");
         this.telemetry = telemetry;
     }
-    @Override
+
     public void intake(double pos){
         rollerServo.setPosition(pos);
     }
-    @Override
+
     public void outake(double pos){
         rollerServo.setPosition(pos);
     }
-    @Override
+
     public void setPosition(int pos){
-        rollerServo.setPosition(pos);
+        rollerServo.setPosition(Range.clip(pos, rollerServo.MIN_POSITION, rollerServo.MAX_POSITION));
     }
-    @Override
+
     public void setDirection(Servo.Direction direction){
         rollerServo.setDirection(direction);
     }

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class horizontalSlide extends Mechanism{
+public class horizontalSlide implements MechanismTemplate{
     //folder for constants
     //Set to position
     //Interface for everything
@@ -16,35 +16,32 @@ public class horizontalSlide extends Mechanism{
     public horizontalSlide(HardwareMap hwMap, Telemetry telemetry){
         setMode(hwMap, telemetry);
     }
-
     @Override
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         leftHorizontalMotor = hwMap.get(DcMotor.class, "leftHorizontalMotor");
+        leftHorizontalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftHorizontalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftHorizontalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightHorizontalMotor = hwMap.get(DcMotor.class, "rightHorizontalMotor");
+        rightHorizontalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightHorizontalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightHorizontalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    @Override
     public void extend(double pow){
         rightHorizontalMotor.setPower(pow);
         leftHorizontalMotor.setPower(pow);
     }
-    @Override
     public void retract(double pow){
         rightHorizontalMotor.setPower(-pow);
         leftHorizontalMotor.setPower(-pow);
     }
 
-    @Override
     public void stop(){
         rightHorizontalMotor.setPower(0);
         leftHorizontalMotor.setPower(0);
     }
 
-    @Override
     public void setPosition(int pos) {
         rightHorizontalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftHorizontalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
