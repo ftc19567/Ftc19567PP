@@ -68,7 +68,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private TrajectoryFollower follower;
 
-    private DcMotorEx leftFront, leftRear, rightRear, rightFront;
+    private DcMotorEx leftFrontLeftEnc, leftBackRightEnc, rightFrontBackEnc, rightBackNoEnc;
     private List<DcMotorEx> motors;
 
     private BNO055IMU imu;
@@ -116,12 +116,12 @@ public class SampleMecanumDrive extends MecanumDrive {
         // For example, if +Y in this diagram faces downwards, you would use AxisDirection.NEG_Y.
         // BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFrontLeftEnc = hardwareMap.get(DcMotorEx.class, "leftFrontLeftEnc");
+        leftBackRightEnc = hardwareMap.get(DcMotorEx.class, "leftBackRightEnc");
+        rightFrontBackEnc = hardwareMap.get(DcMotorEx.class, "rightFrontBackEnc");
+        rightBackNoEnc = hardwareMap.get(DcMotorEx.class, "rightBackNoEnc");
 
-        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+        motors = Arrays.asList(leftFrontLeftEnc, leftBackRightEnc, rightFrontBackEnc, rightBackNoEnc);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -143,6 +143,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
     }
@@ -285,10 +286,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        leftFront.setPower(v);
-        leftRear.setPower(v1);
-        rightRear.setPower(v2);
-        rightFront.setPower(v3);
+        leftFrontLeftEnc.setPower(v);
+        leftBackRightEnc.setPower(v1);
+        rightBackNoEnc.setPower(v2);
+        rightFrontBackEnc.setPower(v3);
     }
 
     @Override
