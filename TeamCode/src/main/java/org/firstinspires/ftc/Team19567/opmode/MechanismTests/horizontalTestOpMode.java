@@ -3,9 +3,10 @@ package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
-
+@TeleOp(name = "horizontalSlideTest", group = "Intake")
 public class horizontalTestOpMode extends OpMode {
     horizontalSlide testHorizontalSlide;
     boolean aIsPressed;

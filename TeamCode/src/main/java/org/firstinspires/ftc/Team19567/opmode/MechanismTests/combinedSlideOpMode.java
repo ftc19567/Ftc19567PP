@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.Team19567.mechanisms.combinedSlide;
-
+@TeleOp(name = "combinedSlideTest", group = "Intake")
 public class combinedSlideOpMode extends OpMode {
     boolean aIsPressed;
     boolean bIsPressed;

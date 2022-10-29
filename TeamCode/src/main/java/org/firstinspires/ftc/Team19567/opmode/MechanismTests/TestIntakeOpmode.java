@@ -6,17 +6,18 @@ import static org.firstinspires.ftc.Team19567.util.MechanismConstants.OutakeServ
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.VerticalSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.Team19567.mechanisms.arm;
 import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
 import org.firstinspires.ftc.Team19567.mechanisms.roller;
 import org.firstinspires.ftc.Team19567.mechanisms.verticalSlide;
-
+@TeleOp(name = "intakeTest", group = "Intake")
 public class TestIntakeOpmode extends OpMode {
     boolean aIsPressed;
     boolean bIsPressed;
     boolean xisPressed;
-    horizontalSlide testHorizontalSlide;
+//    horizontalSlide testHorizontalSlide;
     arm testArm;
     verticalSlide testVerticalSlide;
     roller testRoller;
@@ -24,7 +25,7 @@ public class TestIntakeOpmode extends OpMode {
     public void init() {
         testRoller = new roller(hardwareMap, telemetry);
         testVerticalSlide = new verticalSlide(hardwareMap, telemetry);
-        testHorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
+//        testHorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
         testArm = new arm(hardwareMap,telemetry);
     }
 
@@ -49,14 +50,14 @@ public class TestIntakeOpmode extends OpMode {
             testVerticalSlide.stop();
         }
 
-        if(gamepad1.dpad_right){
-            testHorizontalSlide.extend(HorizontalSpeed);
-        }
-        else if(gamepad1.dpad_left){
-            testHorizontalSlide.retract(HorizontalSpeed);
-        }else{
-            testHorizontalSlide.stop();
-        }
+//        if(gamepad1.dpad_right){
+//            testHorizontalSlide.extend(HorizontalSpeed);
+//        }
+//        else if(gamepad1.dpad_left){
+//            testHorizontalSlide.retract(HorizontalSpeed);
+//        }else{
+//            testHorizontalSlide.stop();
+//        }
 
         if(gamepad1.x && !xisPressed){
             testArm.flip();

@@ -4,9 +4,10 @@ import static org.firstinspires.ftc.Team19567.util.MechanismConstants.IntakeServ
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.OutakeServoPosition;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.Team19567.mechanisms.roller;
-
+@TeleOp(name = "rollerTest", group = "Intake")
 public class rollerTestOpMode extends OpMode {
     boolean aIsPressed;
     boolean bIsPressed;
