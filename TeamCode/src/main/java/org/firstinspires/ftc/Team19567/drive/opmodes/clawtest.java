@@ -41,22 +41,22 @@ public class clawtest extends OpMode{
     public void loop() {
         telemetry.addData("Servo Position:", clawPos);
         //L
-        if(gamepad2.dpad_down) {
+        if(gamepad1.y) {
 
-            if (buttonDownIsReleased) {
-                buttonDownIsReleased = false;
-                clawPos += 0.005;
+            if (buttonUpIsReleased) {
+                buttonUpIsReleased = false;
+                clawPos = 0.13;
             }
 
         } else {
-            buttonDownIsReleased = true;
+            buttonUpIsReleased = true;
         }
         //L
-        if(gamepad2.dpad_up) {
+        if(gamepad1.a) {
 
             if (buttonDownIsReleased) {
                 buttonDownIsReleased = false;
-                clawPos -= 0.005;
+                clawPos = 0;
             }
 
         } else {
