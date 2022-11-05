@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
+package org.firstinspires.ftc.Team19567.mechanisms.MechanismTests;
 
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.IntakeServoPosition;
@@ -17,7 +17,7 @@ public class TestIntakeOpmode extends OpMode {
     boolean aIsPressed;
     boolean bIsPressed;
     boolean xisPressed;
-//    horizontalSlide testHorizontalSlide;
+    horizontalSlide testHorizontalSlide;
     arm testArm;
     verticalSlide testVerticalSlide;
     roller testRoller;
@@ -25,7 +25,7 @@ public class TestIntakeOpmode extends OpMode {
     public void init() {
         testRoller = new roller(hardwareMap, telemetry);
         testVerticalSlide = new verticalSlide(hardwareMap, telemetry);
-//        testHorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
+        testHorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
         testArm = new arm(hardwareMap,telemetry);
     }
 
@@ -50,14 +50,14 @@ public class TestIntakeOpmode extends OpMode {
             testVerticalSlide.stop();
         }
 
-//        if(gamepad1.dpad_right){
-//            testHorizontalSlide.extend(HorizontalSpeed);
-//        }
-//        else if(gamepad1.dpad_left){
-//            testHorizontalSlide.retract(HorizontalSpeed);
-//        }else{
-//            testHorizontalSlide.stop();
-//        }
+        if(gamepad1.dpad_right){
+            testHorizontalSlide.extend(HorizontalSpeed);
+        }
+        else if(gamepad1.dpad_left){
+            testHorizontalSlide.retract(HorizontalSpeed);
+        }else{
+            testHorizontalSlide.stop();
+        }
 
         if(gamepad1.x && !xisPressed){
             testArm.flip();

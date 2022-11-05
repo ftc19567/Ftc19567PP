@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.Team19567.opmode.MechanismTests;
+package org.firstinspires.ftc.Team19567.mechanisms.MechanismTests;
 
 import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
 
