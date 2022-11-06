@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
 
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.VerticalSpeed;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.HorizontalSpeed;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.VerticalSpeed;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;

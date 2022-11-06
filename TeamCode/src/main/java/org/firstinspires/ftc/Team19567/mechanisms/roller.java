@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.OutakeServoPosition;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;

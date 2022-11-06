@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.Team19567.mechanisms.MechanismTests;
 
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.OutakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.VerticalSpeed;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.HorizontalSpeed;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.IntakeServoPosition;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.OutakeServoPosition;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.VerticalSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

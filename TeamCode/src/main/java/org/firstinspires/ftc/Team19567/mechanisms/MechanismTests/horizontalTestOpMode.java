@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.Team19567.mechanisms.MechanismTests;
 
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.HorizontalSpeed;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.HorizontalSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

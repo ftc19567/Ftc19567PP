@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.FirstArmFlipPosition;
-import static org.firstinspires.ftc.Team19567.util.MechanismConstants.SecondArmFlipPosition;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.FirstArmFlipPosition;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.SecondArmFlipPosition;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
