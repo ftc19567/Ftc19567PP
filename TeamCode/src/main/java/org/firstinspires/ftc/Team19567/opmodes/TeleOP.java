@@ -72,6 +72,7 @@ public class TeleOP extends OpMode {
 
     @Override
     public void loop() {
+        //DriveTrain
         y = -gamepad1.left_stick_y;
         x = gamepad1.left_stick_x * strafeSense;
         rx = gamepad1.right_stick_x;
@@ -93,17 +94,14 @@ public class TeleOP extends OpMode {
         frontLeftMotor.setPower(frontLeftPower);
         backRightMotor.setPower(backRightPower);
         //Intakes and Slides
-        if(gamepad1.a && !aIsPressed) {Roller.intake(IntakeServoPosition);}
-        else if(gamepad1.b && !bIsPressed){Roller.outake(OutakeServoPosition);}
-        if(gamepad1.dpad_up){VerticalSlide.extend(VerticalSpeed);;}
+        if(gamepad1.a) {Roller.intake(IntakeServoPosition);}else{Roller.outake(OutakeServoPosition);}
+        if(gamepad1.dpad_up){VerticalSlide.extend(VerticalSpeed);}
         else if(gamepad1.dpad_down){VerticalSlide.retract(VerticalSpeed);}
         else{VerticalSlide.stop();}
         if(gamepad1.dpad_right){HorizontalSlide.extend(HorizontalSpeed);} else if(gamepad1.dpad_left){HorizontalSlide.retract(HorizontalSpeed);}
         else{HorizontalSlide.stop();}
         if(gamepad1.x && !xisPressed){Arm.flip();}
 
-        aIsPressed = gamepad1.a;
-        bIsPressed = gamepad1.b;
         xisPressed = gamepad1.x;
         telemetry.update();
     }
