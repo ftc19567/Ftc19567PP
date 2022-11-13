@@ -29,10 +29,14 @@ public class TeleOP extends OpMode {
     verticalSlide VerticalSlide;
     roller Roller;
     //Drive
-    DcMotor frontLeftMotor = null;
-    DcMotor frontRightMotor = null;
-    DcMotor backLeftMotor = null;
-    DcMotor backRightMotor = null;
+//    DcMotor frontLeftMotor = null;
+//    DcMotor frontRightMotor = null;
+//    DcMotor backLeftMotor = null;
+//    DcMotor backRightMotor = null;
+    DcMotor leftFrontLeftEnc;
+    DcMotor leftBackRightEnc;
+    DcMotor rightFrontBackEnc;
+    DcMotor rightBackNoEnc;
     double frontLeftPower;
     double backLeftPower;
     double frontRightPower;
@@ -46,14 +50,14 @@ public class TeleOP extends OpMode {
 
     @Override
     public void init() {
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "leftFrontLeftEnc");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "rightFrontBackEnc");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "leftBackRightEnc");
-        backRightMotor = hardwareMap.get(DcMotor.class, "rightBackNoEnc");
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontLeftEnc = hardwareMap.get(DcMotor.class, "leftFrontLeftEnc");
+        rightFrontBackEnc = hardwareMap.get(DcMotor.class, "rightFrontBackEnc");
+        leftBackRightEnc = hardwareMap.get(DcMotor.class, "leftBackRightEnc");
+        rightBackNoEnc = hardwareMap.get(DcMotor.class, "rightBackNoEnc");
+        leftFrontLeftEnc.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontBackEnc.setDirection(DcMotor.Direction.FORWARD);
+        leftBackRightEnc.setDirection(DcMotor.Direction.REVERSE);
+        rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE);
         Roller = new roller(hardwareMap, telemetry);
         VerticalSlide = new verticalSlide(hardwareMap, telemetry);
         HorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
@@ -88,10 +92,10 @@ public class TeleOP extends OpMode {
         frontRightPower = strafeSense*r*Math.sin(robotAngle) -rx*turnSense;
         backRightPower = strafeSense*r*Math.cos(robotAngle) -rx*turnSense;
 
-        frontRightMotor.setPower(frontRightPower);
-        backLeftMotor.setPower(backLeftPower);
-        frontLeftMotor.setPower(frontLeftPower);
-        backRightMotor.setPower(backRightPower);
+        rightFrontBackEnc.setPower(frontRightPower);
+        leftBackRightEnc.setPower(backLeftPower);
+        leftFrontLeftEnc.setPower(frontLeftPower);
+        rightBackNoEnc.setPower(backRightPower);
         //Intakes and Slides
         if(gamepad1.a && !aIsPressed) {Roller.intake(IntakeServoPosition);}
         else if(gamepad1.b && !bIsPressed){Roller.outake(OutakeServoPosition);}
