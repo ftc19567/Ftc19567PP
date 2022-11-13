@@ -23,8 +23,7 @@ public class combinedSlide {
         combinedHorizontalSlide.extend(HorizontalSpeed);
     }
 
-    public void retractHorizontally(){
-        combinedHorizontalSlide.retract(HorizontalSpeed);
+    public void retractHorizontally(){combinedHorizontalSlide.retract(HorizontalSpeed);
     }
 
     public void stopHorizontally(){
