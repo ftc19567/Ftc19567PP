@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.Team19567.mechanisms.arm;
 import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
@@ -50,10 +50,10 @@ public class TeleOP extends OpMode {
         frontRightMotor = hardwareMap.get(DcMotor.class, "rightFrontBackEnc");
         backLeftMotor = hardwareMap.get(DcMotor.class, "leftBackRightEnc");
         backRightMotor = hardwareMap.get(DcMotor.class, "rightBackNoEnc");
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         Roller = new roller(hardwareMap, telemetry);
         VerticalSlide = new verticalSlide(hardwareMap, telemetry);
         HorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
@@ -68,11 +68,10 @@ public class TeleOP extends OpMode {
     @Override
     public void start() {
 
-    }
+    } 
 
     @Override
     public void loop() {
-        //DriveTrain
         y = -gamepad1.left_stick_y;
         x = gamepad1.left_stick_x * strafeSense;
         rx = gamepad1.right_stick_x;
@@ -94,14 +93,17 @@ public class TeleOP extends OpMode {
         frontLeftMotor.setPower(frontLeftPower);
         backRightMotor.setPower(backRightPower);
         //Intakes and Slides
-        if(gamepad1.a) {Roller.intake(IntakeServoPosition);}else{Roller.outake(OutakeServoPosition);}
-        if(gamepad1.dpad_up){VerticalSlide.extend(VerticalSpeed);}
+        if(gamepad1.a && !aIsPressed) {Roller.intake(IntakeServoPosition);}
+        else if(gamepad1.b && !bIsPressed){Roller.outake(OutakeServoPosition);}
+        if(gamepad1.dpad_up){VerticalSlide.extend(VerticalSpeed);;}
         else if(gamepad1.dpad_down){VerticalSlide.retract(VerticalSpeed);}
         else{VerticalSlide.stop();}
         if(gamepad1.dpad_right){HorizontalSlide.extend(HorizontalSpeed);} else if(gamepad1.dpad_left){HorizontalSlide.retract(HorizontalSpeed);}
         else{HorizontalSlide.stop();}
         if(gamepad1.x && !xisPressed){Arm.flip();}
 
+        aIsPressed = gamepad1.a;
+        bIsPressed = gamepad1.b;
         xisPressed = gamepad1.x;
         telemetry.update();
     }
