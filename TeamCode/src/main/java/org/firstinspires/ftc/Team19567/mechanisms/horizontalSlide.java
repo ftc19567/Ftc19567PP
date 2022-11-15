@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Deprecated
 public class horizontalSlide implements MechanismTemplate{
     //folder for constants
     //Set to position

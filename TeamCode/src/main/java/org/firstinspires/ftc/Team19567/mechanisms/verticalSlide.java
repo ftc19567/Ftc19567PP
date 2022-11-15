@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.Team19567.mechanisms;
 
+
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -18,24 +21,23 @@ public class verticalSlide implements MechanismTemplate{
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         leftVerticalMotor = hwMap.get(DcMotor.class, "leftVerticalMotor");
-        leftVerticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftVerticalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftVerticalMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightVerticalMotor = hwMap.get(DcMotor.class, "rightVerticalMotor");
-        rightVerticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftVerticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightVerticalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightVerticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void extend(double pow){
-        rightVerticalMotor.setPower(pow);
+    public void setPosition(double pow, int pos){
         leftVerticalMotor.setPower(pow);
+        rightVerticalMotor.setPower(pow);
+        leftVerticalMotor.setTargetPosition(pos);
+        rightVerticalMotor.setTargetPosition(pos);
+        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void retract(double pow){
-        rightVerticalMotor.setPower(-pow);
-        leftVerticalMotor.setPower(-pow);
-    }
 
 
     public void stop(){
@@ -43,13 +45,18 @@ public class verticalSlide implements MechanismTemplate{
         leftVerticalMotor.setPower(0);
     }
 
-
-    public void setPosition(int pos) {
-        rightVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightVerticalMotor.setTargetPosition(pos);
+    public void setLeftPosition(int pos) {
         leftVerticalMotor.setTargetPosition(pos);
-        rightVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftVerticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void setRightPosition(int pos){
+        rightVerticalMotor.setTargetPosition(pos);
+    }
+
+    public int getLeftPosition(){
+        return leftVerticalMotor.getTargetPosition();
+    }
+    public int getRightPosition(){
+        return rightVerticalMotor.getTargetPosition();
     }
 }

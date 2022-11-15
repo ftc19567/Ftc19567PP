@@ -19,23 +19,19 @@ public class arm implements MechanismTemplate{
     @Override
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-        armServo = hwMap.get(Servo.class, "armServo");
+        armServo = hwMap.get(Servo.class, "flipServo");
         armServo.setDirection(Servo.Direction.FORWARD);
     }
 
-
-    public double flip(){
-        if(armServo.getPosition() == FirstArmFlipPosition){
-            armServo.setPosition(SecondArmFlipPosition);
-        }
-        else if(armServo.getPosition() == SecondArmFlipPosition){
-            armServo.setPosition(FirstArmFlipPosition);
-        }
-        return armServo.getPosition();
+    public void flipToFirst(){
+        armServo.setPosition(FirstArmFlipPosition);
     }
 
+    public void flipToSecond(){
+        armServo.setPosition(SecondArmFlipPosition);
+    }
 
-    public void setPosition(int pos){
+    public void setPosition(double pos){
         armServo.setPosition(Range.clip(pos, armServo.MIN_POSITION, armServo.MAX_POSITION));
     }
 
@@ -44,4 +40,7 @@ public class arm implements MechanismTemplate{
         armServo.setDirection(direction);
     }
 
+    public double getPosition(){
+        return armServo.getPosition();
+    }
 }

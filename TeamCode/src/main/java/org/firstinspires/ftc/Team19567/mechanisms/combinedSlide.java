@@ -7,7 +7,7 @@ import static org.firstinspires.ftc.Team19567.util.UtilConstants.VerticalSpeed;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Deprecated
 public class combinedSlide {
     verticalSlide combinedVerticalSlide;
     horizontalSlide combinedHorizontalSlide;
@@ -46,8 +46,5 @@ public class combinedSlide {
         combinedHorizontalSlide.setPosition(pos);
     }
 
-    public void setverticalMotor(int pos) {
-        combinedVerticalSlide.setPosition(pos);
-    }
 
 }

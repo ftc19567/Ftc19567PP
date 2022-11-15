@@ -15,7 +15,7 @@ public class roller implements MechanismTemplate{
 
     @Override
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
-        rollerServo = hwMap.get(Servo.class, "roller Servo");
+        rollerServo = hwMap.get(Servo.class, "intakeServo");
         this.telemetry = telemetry;
     }
 
@@ -29,6 +29,10 @@ public class roller implements MechanismTemplate{
 
     public void setPosition(int pos){
         rollerServo.setPosition(Range.clip(pos, rollerServo.MIN_POSITION, rollerServo.MAX_POSITION));
+    }
+
+    public double getPosition(){
+        return rollerServo.getPosition();
     }
 
     public void setDirection(Servo.Direction direction){

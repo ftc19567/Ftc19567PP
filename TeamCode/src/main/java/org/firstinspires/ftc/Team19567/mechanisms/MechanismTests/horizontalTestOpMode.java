@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
+@Deprecated
 @TeleOp(name = "horizontalSlideTest", group = "Intake")
 public class horizontalTestOpMode extends OpMode {
     horizontalSlide testHorizontalSlide;
