@@ -19,10 +19,10 @@ public class verticalTestOpMode extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up){
-            testVerticalSlide.extend(VerticalSpeed);;
+            //testVerticalSlide.extend(VerticalSpeed);;
         }
         else if(gamepad1.dpad_down){
-            testVerticalSlide.retract(VerticalSpeed);
+            //testVerticalSlide.retract(VerticalSpeed);
         }else{
             testVerticalSlide.stop();
         }

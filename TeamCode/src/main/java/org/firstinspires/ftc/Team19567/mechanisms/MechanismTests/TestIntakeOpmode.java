@@ -40,17 +40,17 @@ public class TestIntakeOpmode extends OpMode {
         }
 
         if(gamepad1.dpad_up){
-            testVerticalSlide.extend(VerticalSpeed);;
+            //testVerticalSlide.extend(VerticalSpeed);;
         }
         else if(gamepad1.dpad_down){
-            testVerticalSlide.retract(VerticalSpeed);
+            //testVerticalSlide.retract(VerticalSpeed);
         }else{
             testVerticalSlide.stop();
         }
 
 
         if(gamepad1.x && !xisPressed){
-            testArm.flip();
+            //testArm.flip();
         }
 
         aIsPressed = gamepad1.a;

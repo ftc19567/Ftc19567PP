@@ -16,7 +16,7 @@ public class armTestOpMode extends OpMode {
     @Override
     public void loop(){
         if(gamepad1.x && !xisPressed){
-            testArm.flip();
+            //testArm.flip();
         }
         xisPressed = gamepad1.x;
 

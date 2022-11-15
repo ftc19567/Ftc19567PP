@@ -31,11 +31,11 @@ public class combinedSlide {
     }
 
     public void extendVertically(){
-        combinedVerticalSlide.extend(VerticalSpeed);
+        //combinedVerticalSlide.extend(VerticalSpeed);
     }
 
     public void retractVertically(){
-        combinedVerticalSlide.retract(VerticalSpeed);
+        //combinedVerticalSlide.retract(VerticalSpeed);
     }
 
     public void stopVertically(){
