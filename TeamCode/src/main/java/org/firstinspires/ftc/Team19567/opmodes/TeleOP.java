@@ -116,6 +116,7 @@ public class TeleOP extends OpMode {
         else Sense = 1;
         if(gamepad1.dpad_up|| gamepad2.dpad_up){Arm.flipToFirst();}
         if(gamepad1.dpad_down||gamepad2.dpad_down){Arm.flipToSecond();}
+        if(gamepad1.dpad_right||gamepad2.dpad_right)verticalSlidePosition=235;
 //        bIsPressed = gamepad1.b;
 //        aIsPressed = gamepad1.a;
 //        downIsPressed = gamepad1.dpad_down;
