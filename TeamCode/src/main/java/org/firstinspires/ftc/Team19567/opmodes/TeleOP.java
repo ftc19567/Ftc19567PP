@@ -107,16 +107,18 @@ public class TeleOP extends OpMode {
         rightBackNoEnc.setPower(backRightPower*Sense);
         //Intakes and Slides
         if(gamepad1.right_trigger>0 || gamepad2.right_trigger>0) {Roller.intake(IntakeServoPosition);}else Roller.outake(OutakeServoPosition);
-        if(gamepad1.left_trigger>0||gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
+        if(gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
+        if(gamepad2.left_trigger>0){verticalSlidePosition+=gamepad2.left_trigger*5;}
         if(gamepad1.left_bumper || gamepad2.left_bumper) {verticalSlidePosition = Range.clip(verticalSlidePosition-10, 0.0, verticalSlidePosition-5);}
 //        if(gamepad1.dpad_right){HorizontalSlide.extend(HorizontalSpeed);} else if(gamepad1.dpad_left){HorizontalSlide.retract(HorizontalSpeed);}
 //        else{HorizontalSlide.stop();}
-        if(gamepad1.b){Slowmode = !Slowmode;}
+        if(gamepad1.dpad_down){Slowmode = !Slowmode;}
         if(Slowmode){Sense = 0.3;}
         else Sense = 1;
-        if(gamepad1.dpad_up|| gamepad2.dpad_up){Arm.flipToFirst();}
-        if(gamepad1.dpad_down||gamepad2.dpad_down){Arm.flipToSecond();}
-        if(gamepad1.dpad_right||gamepad2.dpad_right)verticalSlidePosition=235;
+        if(gamepad1.x|| gamepad2.x){Arm.flipToFirst();}
+        if(gamepad1.y||gamepad2.y){Arm.flipToSecond();}
+        if(gamepad1.dpad_up||gamepad2.dpad_up){Arm.flipToThird();} //when tested this didn't work, don't know why
+        if(gamepad1.b||gamepad2.b)verticalSlidePosition=235;
 //        bIsPressed = gamepad1.b;
 //        aIsPressed = gamepad1.a;
 //        downIsPressed = gamepad1.dpad_down;
