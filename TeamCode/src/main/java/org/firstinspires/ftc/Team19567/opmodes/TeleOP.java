@@ -63,6 +63,9 @@ public class TeleOP extends OpMode {
         rightFrontBackEnc.setDirection(DcMotor.Direction.REVERSE);
         leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
         rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE);
+        leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontLeftEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Roller = new roller(hardwareMap, telemetry);
         VerticalSlide = new verticalSlide(hardwareMap, telemetry);
 //        HorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
