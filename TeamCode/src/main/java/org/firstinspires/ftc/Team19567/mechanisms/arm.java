@@ -2,6 +2,7 @@ package org.firstinspires.ftc.Team19567.mechanisms;
 
 import static org.firstinspires.ftc.Team19567.util.UtilConstants.FirstArmFlipPosition;
 import static org.firstinspires.ftc.Team19567.util.UtilConstants.SecondArmFlipPosition;
+import static org.firstinspires.ftc.Team19567.util.UtilConstants.ThirdArmFlipPosition;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -29,6 +30,10 @@ public class arm implements MechanismTemplate{
 
     public void flipToSecond(){
         armServo.setPosition(SecondArmFlipPosition);
+    }
+
+    public void flipToThird(){
+        armServo.setPosition(ThirdArmFlipPosition);
     }
 
     public void setPosition(double pos){
