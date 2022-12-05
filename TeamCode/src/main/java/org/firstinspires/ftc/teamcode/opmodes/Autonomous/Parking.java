@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.mechanisms.claw;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ParkingLocation;
 import org.firstinspires.ftc.teamcode.util.RoadRunnerState;
@@ -40,6 +41,8 @@ public class Parking extends LinearOpMode {
     private ElapsedTime parkingTimeout = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
+
+        claw claw = new claw(hardwareMap, telemetry);
 
         SampleMecanumDrive chassis = new SampleMecanumDrive(hardwareMap);
         chassis.setPoseEstimate(starPos);

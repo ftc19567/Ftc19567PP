@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.OutakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.VerticalSpeed;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.strafeSense;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.turnSense;
+
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -13,14 +12,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.Team19567.mechanisms.SimpleBotVerticalSlide;
-import org.firstinspires.ftc.Team19567.mechanisms.arm;
-import org.firstinspires.ftc.Team19567.mechanisms.claw;
-import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
-import org.firstinspires.ftc.Team19567.mechanisms.roller;
-import org.firstinspires.ftc.Team19567.mechanisms.verticalSlide;
-import org.firstinspires.ftc.Team19567.util.AxisDirection;
-import org.firstinspires.ftc.Team19567.util.BNO055IMUUtil;
+
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
+import org.firstinspires.ftc.teamcode.mechanisms.claw;
+import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
+import org.firstinspires.ftc.teamcode.util.AxisDirection;
+import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 
 @TeleOp(name = "SimpleTeleOP")
 public class SimpleBotTeleOP extends OpMode {
@@ -117,8 +114,8 @@ BNO055IMU imu;
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
         rightBackNoEnc.setPower(backRightPower*Sense);
         //Intakes and Slides
-//        if(gamepad2.right_trigger>0) {Claw.close();}
-//        else if(gamepad2.right_bumper) Claw.open();
+        if(gamepad2.right_trigger>0) {Claw.close();}
+        else if(gamepad2.right_bumper) Claw.open();
         if(gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
 //        if(gamepad2.left_trigger>0){verticalSlidePosition+=gamepad2.left_trigger*5;}
         if(gamepad1.left_bumper || gamepad2.left_bumper) {verticalSlidePosition = Range.clip(verticalSlidePosition-10, 0.0, verticalSlidePosition-5);}

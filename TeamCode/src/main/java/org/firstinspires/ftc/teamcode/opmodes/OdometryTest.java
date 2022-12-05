@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.Team19567.odometry.Odometry;
+import org.firstinspires.ftc.teamcode.odometry.Odometry;
 @TeleOp(name = "TestOdometry")
 public class OdometryTest extends LinearOpMode {
     DcMotor leftFrontLeftEnc;
