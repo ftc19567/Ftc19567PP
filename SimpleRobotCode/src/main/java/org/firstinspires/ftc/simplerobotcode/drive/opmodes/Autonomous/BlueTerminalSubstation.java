@@ -2,7 +2,7 @@ package org.firstinspires.ftc.simplerobotcode.drive.opmodes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.Team19567.util.ParkingLocation;
+import org.firstinspires.ftc.simplerobotcode.drive.util.ParkingLocation;
 import org.openftc.easyopencv.OpenCvCamera;
 
 public class BlueTerminalSubstation extends OpMode {
