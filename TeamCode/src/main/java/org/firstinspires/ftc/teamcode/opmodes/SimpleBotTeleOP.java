@@ -57,8 +57,8 @@ BNO055IMU imu;
     public void init() {
         leftFrontLeftEnc = hardwareMap.get(DcMotor.class, "leftFront");
         rightFrontBackEnc = hardwareMap.get(DcMotor.class, "rightFront");
-        leftBackRightEnc = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBackNoEnc = hardwareMap.get(DcMotor.class, "rightBack");
+        leftBackRightEnc = hardwareMap.get(DcMotor.class, "leftRear");
+        rightBackNoEnc = hardwareMap.get(DcMotor.class, "rightRear");
         leftFrontLeftEnc.setDirection(DcMotor.Direction.FORWARD);
         rightFrontBackEnc.setDirection(DcMotor.Direction.REVERSE);
         leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
@@ -66,6 +66,7 @@ BNO055IMU imu;
         leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontLeftEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Claw = new claw(hardwareMap, telemetry);
 //        Roller = new roller(hardwareMap, telemetry);
         VerticalSlide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -114,8 +115,8 @@ BNO055IMU imu;
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
         rightBackNoEnc.setPower(backRightPower*Sense);
         //Intakes and Slides
-        if(gamepad2.right_trigger>0) {Claw.close();}
-        else if(gamepad2.right_bumper) Claw.open();
+        if(gamepad1.right_trigger>0) {Claw.close();}
+        else if(gamepad1.right_bumper) Claw.open();
         if(gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
 //        if(gamepad2.left_trigger>0){verticalSlidePosition+=gamepad2.left_trigger*5;}
         if(gamepad1.left_bumper || gamepad2.left_bumper) {verticalSlidePosition = Range.clip(verticalSlidePosition-10, 0.0, verticalSlidePosition-5);}
