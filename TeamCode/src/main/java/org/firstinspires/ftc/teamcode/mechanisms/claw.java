@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.clawIntakePos;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.clawOutakePos;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawIntakePos;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOutakePos;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;

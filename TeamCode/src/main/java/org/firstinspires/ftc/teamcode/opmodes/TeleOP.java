@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.HorizontalSpeed;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.OutakeServoPosition;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.SecondArmFlipPosition;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.VerticalSpeed;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.strafeSense;
-import static org.firstinspires.ftc.Team19567.util.UtilConstants.turnSense;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.HorizontalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.IntakeServoPosition;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.OutakeServoPosition;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.SecondArmFlipPosition;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -17,11 +17,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.Team19567.R;
-import org.firstinspires.ftc.Team19567.mechanisms.arm;
-import org.firstinspires.ftc.Team19567.mechanisms.horizontalSlide;
-import org.firstinspires.ftc.Team19567.mechanisms.roller;
-import org.firstinspires.ftc.Team19567.mechanisms.verticalSlide;
+import org.firstinspires.ftc.teamcode.R;
+import org.firstinspires.ftc.teamcode.mechanisms.arm;
+import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
+import org.firstinspires.ftc.teamcode.mechanisms.roller;
+import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
+import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
 
 @TeleOp(name = "TeleOP")
 public class TeleOP extends OpMode {
