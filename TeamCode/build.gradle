@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 //    implementation 'org.openftc:easyopencv:1.5.1'
     implementation 'org.openftc:opencv-repackaged:4.5.3-B'
+    implementation 'org.openftc:apriltag:1.1.0'
 }
