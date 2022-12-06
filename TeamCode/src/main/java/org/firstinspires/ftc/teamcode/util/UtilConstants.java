@@ -15,4 +15,5 @@ public class UtilConstants {
     public static final int tagThirdId = 2;
     public static final  double clawIntakePos = 0.4;
     public static final double clawOutakePos=0.67;
+    public static final int TickPerInch = 0;
 }
