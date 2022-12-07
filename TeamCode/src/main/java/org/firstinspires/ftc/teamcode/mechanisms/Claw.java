@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class claw implements MechanismTemplate{
+public class Claw implements MechanismTemplate{
     Servo clawServo;
-    public claw(HardwareMap hardwareMap, Telemetry telemetry)
+    public Claw(HardwareMap hardwareMap, Telemetry telemetry)
     {
         setMode(hardwareMap, telemetry);
     }
@@ -25,5 +25,9 @@ public class claw implements MechanismTemplate{
 
     public void open(){
         clawServo.setPosition(clawOutakePos);
+    }
+
+    public double getPos(){
+        return clawServo.getPosition();
     }
 }
