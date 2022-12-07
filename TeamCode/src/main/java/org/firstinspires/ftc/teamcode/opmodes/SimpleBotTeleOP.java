@@ -47,7 +47,7 @@ public class SimpleBotTeleOP extends OpMode {
 
     Claw claw;
     SimpleBotVerticalSlide verticalSlide;
-BNO055IMU imu;
+    BNO055IMU imu;
     @Override
     public void init() {
         leftFrontLeftEnc = hardwareMap.get(DcMotor.class, "leftFront");
@@ -103,7 +103,7 @@ BNO055IMU imu;
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
         rightBackNoEnc.setPower(backRightPower*Sense);
 
-        if(gamepad1.right_bumper)Slowmode = !Slowmode;
+        if(gamepad1.back)Slowmode = !Slowmode;
         if(Slowmode)Sense = 0.5;
         else Sense = 1;
 
@@ -114,8 +114,11 @@ BNO055IMU imu;
 
         if(gamepad1.left_trigger>0)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,4000);
         if(gamepad1.left_bumper) verticalSlidePos = Range.clip(15*(verticalSlidePos - 1),0,4000);
-        if(gamepad1.b) verticalSlidePos = 0;
+        if(gamepad1.b) verticalSlidePos =   0;
         if(gamepad1.a) verticalSlidePos = 2990;
+        if(gamepad1.x) verticalSlidePos = 1100;
+        if(gamepad1.y) verticalSlidePos = 1900;
+
 
 
         verticalSlide.setPosition(VerticalSpeed, (int) verticalSlidePos);
