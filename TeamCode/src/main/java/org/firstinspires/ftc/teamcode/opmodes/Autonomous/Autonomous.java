@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
+/*package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.TickPerInch;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.util.Encoder;
 
 public class Autonomous{
     int TargetPosition;
@@ -86,3 +83,6 @@ public class Autonomous{
         }
     }
 }
+
+
+ */

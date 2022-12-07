@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
+package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
-import org.firstinspires.ftc.teamcode.opmodes.Autonomous.AprilTagPipeline;
+import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ParkingLocation;
 import org.firstinspires.ftc.teamcode.util.RoadRunnerState;
@@ -35,6 +35,11 @@ public class Parking extends LinearOpMode {
     double chosenY;
     Pose2d starPos = new Pose2d(-34, 60, Math.toRadians(270));
     private ElapsedTime parkingTimeout = new ElapsedTime();
+
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,7 +59,7 @@ public class Parking extends LinearOpMode {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
-        AprilTagPipeline aprilTagPipeline = new AprilTagPipeline(telemetry);
+        AprilTagPipeline aprilTagPipeline = new AprilTagPipeline(1, fx, fy, cx, cy);
         camera.setPipeline(aprilTagPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -91,8 +96,8 @@ public class Parking extends LinearOpMode {
                         break;
                     }
                     case First: {
-                        .forward(60)
-                        .strafeLeft(10)
+                        //.forward(60)
+                        //.strafeLeft(10)
                     }
                     case Second: {
                         //forward(60)
@@ -148,15 +153,15 @@ public class Parking extends LinearOpMode {
         switch (state) {
             case Preload: {
                 chassis.followTrajectorySequence(preload);
-                state = DrivingToStackSequence;
+                //state = DrivingToStackSequence;
             }
             case DrivingToJunction: {
                 chassis.followTrajectorySequence(DrivingToJunctionSequence);
-                state = DrivingToStackSequence;
+                //state = DrivingToStackSequence;
             }
             case DrivingToStack: {
                 chassis.followTrajectorySequence(DrivingToStackSequence);
-                state = DrivingToJunctionSequence;
+                //state = DrivingToJunctionSequence;
             }
 
             case Parking: {
@@ -177,6 +182,5 @@ public class Parking extends LinearOpMode {
 }
 
 
- */
 
 

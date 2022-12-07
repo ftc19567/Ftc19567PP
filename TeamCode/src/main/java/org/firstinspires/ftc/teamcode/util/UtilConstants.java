@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
+
 public class UtilConstants {
     static public final double HorizontalSpeed = 1;
     static public final double VerticalSpeed = 1;
@@ -13,7 +15,9 @@ public class UtilConstants {
     public static final int tagFirstId = 0;
     public static final int tagSecondId = 1;
     public static final int tagThirdId = 2;
-    public static final  double clawIntakePos = 0.4;
+    public static final double clawIntakePos = 0.4;
     public static final double clawOutakePos=0.67;
-    public static final int TickPerInch = 0;
+
+    public static LOCATION location= LOCATION.FIRST;
+    public static int tag = 0;
 }
