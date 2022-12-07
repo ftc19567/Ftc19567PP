@@ -1,27 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.mechanisms.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
-import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
-import org.firstinspires.ftc.teamcode.opmodes.Autonomous.AprilTagPipeline;
+import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.util.ParkingLocation;
-import org.firstinspires.ftc.teamcode.util.RoadRunnerState;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -32,7 +23,7 @@ import java.util.ArrayList;
 @Autonomous(group = "official")
 public class RightSideAuto extends LinearOpMode{
 
-
+    AprilTagPipeline aprilTagPipeline = new AprilTagPipeline(telemetry);
 
     private LOCATION location = LOCATION.FIRST;
 
@@ -44,8 +35,8 @@ public class RightSideAuto extends LinearOpMode{
 
         Pose2d startPose = new Pose2d(60, 45, Math.toRadians(-90));
 
-
         drive.setPoseEstimate(startPose);
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -56,23 +47,23 @@ public class RightSideAuto extends LinearOpMode{
             public void onOpened() {
                 camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
             }
-
             @Override
             public void onError(int errorCode) {
-
             }
         });
-
-
         ArrayList<AprilTagDetection> currentDetections = aprilTagPipeline.getLatestDetections();
+
         if (currentDetections.size() == 1) {
             for (AprilTagDetection detection : currentDetections) {
                 if (detection.id == tagFirstId) {
                     location = LOCATION.FIRST;
+
                 } else if (detection.id == tagSecondId) {
                     location = LOCATION.SECOND;
-                } else if (detection.id == tagThirdId) {
+
+            } else if (detection.id == tagThirdId) {
                     location = LOCATION.THIRD;
+
                 }
             }
         }
@@ -87,7 +78,7 @@ public class RightSideAuto extends LinearOpMode{
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .strafeRight(28)
+                .strafeRight(30)
                 .forward(30)
                 .build();
 
@@ -112,13 +103,12 @@ public class RightSideAuto extends LinearOpMode{
                 telemetry.update();
                 break;
             }
-            //Code to run by default (failsafe)
             default: {
+                complete = first;
                 telemetry.addData("OpenCV","Defaulted to Pos 1");
                 telemetry.update();
             }
         }
-
 
         waitForStart();
 
