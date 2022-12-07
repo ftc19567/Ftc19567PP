@@ -1,25 +1,23 @@
-package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
+/*package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 
-
-import static org.firstinspires.ftc.teamcode.util.RoadRunnerState.DrivingToJunction;
-import static org.firstinspires.ftc.teamcode.util.RoadRunnerState.DrivingToStack;
-import static org.firstinspires.ftc.teamcode.util.RoadRunnerState.Preload;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
 
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.mechanisms.claw;
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
+import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
+import org.firstinspires.ftc.teamcode.opmodes.Autonomous.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ParkingLocation;
 import org.firstinspires.ftc.teamcode.util.RoadRunnerState;
@@ -30,13 +28,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
+@Autonomous(group = "official")
 public class Parking extends LinearOpMode {
 
+    double chosenX;
+    double chosenY;
+    Pose2d starPos = new Pose2d(-34, 60, Math.toRadians(270));
+    private ElapsedTime parkingTimeout = new ElapsedTime();
 
-//    double chosenX;
-//    double chosenY;
-//    Pose2d starPos = new Pose2d(-34, 60, Math.toRadians(270));
-//    private ElapsedTime parkingTimeout = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         RoadRunnerState state = RoadRunnerState.Parking;
@@ -46,10 +45,12 @@ public class Parking extends LinearOpMode {
         DcMotor rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         DcMotor leftRear = hardwareMap.get(DcMotor.class, "leftRear");
         DcMotor rightRear = hardwareMap.get(DcMotor.class, "rightRear");
-//        claw claw = new claw(hardwareMap, telemetry);
 
-//        SampleMecanumDrive chassis = new SampleMecanumDrive(hardwareMap);
-//        chassis.setPoseEstimate(starPos);
+        Claw claw = new Claw(hardwareMap, telemetry);
+        SimpleBotVerticalSlide slide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
+        SampleMecanumDrive chassis = new SampleMecanumDrive(hardwareMap);
+
+        chassis.setPoseEstimate(starPos);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -90,7 +91,8 @@ public class Parking extends LinearOpMode {
                         break;
                     }
                     case First: {
-                        //forward(60) left(10)
+                        .forward(60)
+                        .strafeLeft(10)
                     }
                     case Second: {
                         //forward(60)
@@ -102,64 +104,69 @@ public class Parking extends LinearOpMode {
             }
         }
 
-//        parkingTimeout.reset();
-//        TrajectorySequence preload = chassis.trajectorySequenceBuilder(starPos)
-//                .forward(60)
-//                .turn(Math.toRadians(90))
-//                .addDisplacementMarker(() -> {
-//                    verticalslide.setPosition()
-//                }).waitSeconds(1)
-//                .addDisplacementMarker(() -> {
-//                    claw.open();
-//                    verticalslide.setPosition()
-//                })
-//                .build();
 
-//        TrajectorySequence DrivingToStackSequence = chassis.trajectorySequenceBuilder(preload.end())
-////                .turn(Math.toRadians(180))
-////                .strafeRight(12)
-//                .forward(20)
-//                .addDisplacementMarker(() -> {
-////                                    verticalSlide.setPosition()
-//                }).waitSeconds(0.5)
-//                .addDisplacementMarker(() -> {
-////                                    claw.close
-//                })
-//                .build();
-//        TrajectorySequence DrivingToJunctionSequence = chassis.trajectorySequenceBuilder(DrivingToStackSequence.end())
-//                .setReversed(true)
-//                .back(20)
-//                .strafeLeft(12)
-//                .setReversed(false)
-//                .turn(Math.toRadians(180))
-//                .addDisplacementMarker(() -> {
-//                    //verticalslide.setPosition()
-//                }).waitSeconds(1)
-//                .addDisplacementMarker(() -> {
-//                    //claw.open();
-//                    //verticalslide.setPosition()
-//                })
-//                .build();
+        parkingTimeout.reset();
+        TrajectorySequence preload = chassis.trajectorySequenceBuilder(starPos)
+                .forward(60)
+                .turn(Math.toRadians(90))
+                .addDisplacementMarker(() -> {
+                    slide.setPosition(VerticalSpeed, 3000);
+                }).waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    claw.open();
+                    slide.setPosition(VerticalSpeed,0);
+                })
+                .build();
+
+        TrajectorySequence DrivingToStackSequence = chassis.trajectorySequenceBuilder(preload.end())
+                .turn(Math.toRadians(180))
+                .strafeRight(12)
+                .forward(20)
+                .addDisplacementMarker(() -> {
+                        slide.setPosition(VerticalSpeed, 0);
+                }).waitSeconds(0.5)
+                .addDisplacementMarker(() -> {
+                                    claw.close();
+                })
+                .build();
+        TrajectorySequence DrivingToJunctionSequence = chassis.trajectorySequenceBuilder(DrivingToStackSequence.end())
+                .setReversed(true)
+                .back(20)
+                .strafeLeft(12)
+                .setReversed(false)
+                .turn(Math.toRadians(180))
+                .addDisplacementMarker(() -> {
+                    //verticalslide.setPosition()
+                }).waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    //claw.open();
+                    //verticalslide.setPosition()
+                })
+                .build();
 
 
-//        switch (state) {
-//            case Preload: {
-//                chassis.followTrajectorySequence(preload);
-//                state = DrivingToStack;
-//            }
-//            case DrivingToJunction: {
-//                chassis.followTrajectorySequence(DrivingToJunctionSequence);
-//                state = DrivingToStack;
-//            }
-//            case DrivingToStack: {
-//                chassis.followTrajectorySequence(DrivingToStackSequence);
-//                state = DrivingToJunction;
-//            }
-//        }
-//        if(parkingTimeout.seconds() >= 25)
-//        {
-//            state = RoadRunnerState.Parking;
-//        }
+        switch (state) {
+            case Preload: {
+                chassis.followTrajectorySequence(preload);
+                state = DrivingToStackSequence;
+            }
+            case DrivingToJunction: {
+                chassis.followTrajectorySequence(DrivingToJunctionSequence);
+                state = DrivingToStackSequence;
+            }
+            case DrivingToStack: {
+                chassis.followTrajectorySequence(DrivingToStackSequence);
+                state = DrivingToJunctionSequence;
+            }
+
+            case Parking: {
+
+            }
+        }
+        if(parkingTimeout.seconds() >= 25)
+        {
+            state = RoadRunnerState.Parking;
+        }
 
 
 
@@ -169,5 +176,7 @@ public class Parking extends LinearOpMode {
 
 }
 
+
+ */
 
 
