@@ -24,4 +24,5 @@ public class UtilConstants {
     public static int tag = 0;
 
     public static final Pose2d topRight = new Pose2d(62, 36, Math.toRadians(180));
+    public static final Pose2d bottomLeft = new Pose2d(62,-36, Math.toRadians(180));
 }
