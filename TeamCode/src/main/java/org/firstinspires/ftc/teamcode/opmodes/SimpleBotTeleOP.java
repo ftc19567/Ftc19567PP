@@ -108,8 +108,8 @@ public class SimpleBotTeleOP extends OpMode {
         else Sense = 1;
 
         //Intake
-        if(gamepad1.right_trigger>0) claw.close();
-        else if(gamepad1.right_bumper) claw.open();
+        if(gamepad1.right_trigger>0) claw.position(0.3);
+        else if(gamepad1.right_bumper) claw.position(0.8);
 
 
         if(gamepad1.left_trigger>0)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,4000);
@@ -129,6 +129,7 @@ public class SimpleBotTeleOP extends OpMode {
         telemetry.addData("z:", imu.getPosition().z);
         telemetry.addData("imu", imu.getAngularOrientation().firstAngle);
         telemetry.addData("Position", verticalSlide.getPosition());
+        telemetry.addData("Servo Port", claw.portNum());
         telemetry.update();
     }
 

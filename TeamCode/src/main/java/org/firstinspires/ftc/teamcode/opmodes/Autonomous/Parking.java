@@ -117,7 +117,7 @@ public class Parking extends LinearOpMode {
                     slide.setPosition(VerticalSpeed, 3000);
                 }).waitSeconds(1)
                 .addDisplacementMarker(() -> {
-                    claw.open();
+                    claw.position(0);
                     slide.setPosition(VerticalSpeed,0);
                 })
                 .build();
@@ -130,7 +130,7 @@ public class Parking extends LinearOpMode {
                         slide.setPosition(VerticalSpeed, 0);
                 }).waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
-                                    claw.close();
+                                    claw.position(1);
                 })
                 .build();
         TrajectorySequence DrivingToJunctionSequence = chassis.trajectorySequenceBuilder(DrivingToStackSequence.end())
