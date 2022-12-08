@@ -28,7 +28,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "official")
 public class Parking extends LinearOpMode {
 
     double chosenX;

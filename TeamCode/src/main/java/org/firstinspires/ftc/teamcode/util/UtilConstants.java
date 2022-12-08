@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
 import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 
 public class UtilConstants {
@@ -20,4 +22,6 @@ public class UtilConstants {
 
     public static LOCATION location= LOCATION.FIRST;
     public static int tag = 0;
+
+    public static final Pose2d topRight = new Pose2d(62, 36, Math.toRadians(180));
 }
