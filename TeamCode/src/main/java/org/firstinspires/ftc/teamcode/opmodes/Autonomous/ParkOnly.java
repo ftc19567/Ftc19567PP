@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -21,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(group = "official")
-public class RightSidePark extends LinearOpMode
+public class ParkOnly extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;
     private TrajectorySequence complete;
@@ -46,7 +48,7 @@ public class RightSidePark extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
-    Pose2d startPose = new Pose2d(60, 45, Math.toRadians(-90));
+    Pose2d startPose = topRight;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -158,21 +160,18 @@ public class RightSidePark extends LinearOpMode
         }
 
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .forward(3)
-                .strafeLeft(24)
-                .forward(30)
+                .lineTo(new Vector2d(54,12))
+                .lineTo(new Vector2d(28,12))
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .forward(3)
-                .strafeRight(5)
-                .forward(30)
+                .lineTo(new Vector2d(54,37))
+                .lineTo(new Vector2d(30,37))
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .forward(3)
-                .strafeRight(30)
-                .forward(30)
+                .lineTo(new Vector2d(54,60))
+                .lineTo(new Vector2d(28,60))
                 .build();
 
         /* Actually do something useful */
@@ -220,11 +219,5 @@ public class RightSidePark extends LinearOpMode
     void tagToTelemetry(AprilTagDetection detection)
     {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
-        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
-        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
-        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
