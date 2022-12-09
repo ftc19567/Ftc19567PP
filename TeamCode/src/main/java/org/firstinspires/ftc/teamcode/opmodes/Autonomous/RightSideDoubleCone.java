@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
@@ -23,15 +24,13 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(group = "official")
-public class ParkOnly extends LinearOpMode
+public class RightSideDoubleCone extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;
     private TrajectorySequence complete;
 
     OpenCvCamera camera;
     AprilTagPipeline aprilTagDetectionPipeline;
-
-    static final double FEET_PER_METER = 3.28084;
 
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -160,18 +159,63 @@ public class ParkOnly extends LinearOpMode
         }
 
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,13))
-                .lineTo(new Vector2d(28,13))
+                .lineTo(new Vector2d(58,10))
+                .lineTo(new Vector2d(20,12.5))
+                .splineTo(new Vector2d(8,16), Math.toRadians(135)) //drop cone
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(15, 10, Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(36, 10, Math.toRadians(-270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,28), Math.toRadians(-135))
+                .waitSeconds(1)
+                //reset
+                .lineToLinearHeading(new Pose2d(12, 36, Math.toRadians(-90)))
+                .splineTo(new Vector2d(12,10), Math.toRadians(-90))
+                .turn(Math.toRadians(90))
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,37))
-                .lineTo(new Vector2d(30,37))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(8,-16), Math.toRadians(-135)) //drop cone
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(15, -10, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(36, -10, Math.toRadians(270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,-30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,-28), Math.toRadians(135))
+                .waitSeconds(1)
+                //reset
+                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(135)))
+
+                .turn(Math.toRadians(-135))
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,60))
-                .lineTo(new Vector2d(28,60))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(8,-16), Math.toRadians(-135)) //drop cone
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(15, -10, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(36, -10, Math.toRadians(270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,-30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,-28), Math.toRadians(135))
+                .waitSeconds(1)
+                //reset
+                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(135)))
+                .splineTo(new Vector2d(12,-59), Math.toRadians(-90))
+                .turn(Math.toRadians(-90))
                 .build();
 
         /* Actually do something useful */

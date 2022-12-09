@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawIntakePos;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOutakePos;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos2;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos3;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
@@ -47,6 +52,7 @@ public class SimpleBotTeleOP extends OpMode {
 
     Claw claw;
     SimpleBotVerticalSlide verticalSlide;
+
     BNO055IMU imu;
     @Override
     public void init() {
@@ -108,20 +114,20 @@ public class SimpleBotTeleOP extends OpMode {
         else Sense = 1;
 
         //Intake
-        if(gamepad1.right_trigger>0) claw.position(0.3);
-        else if(gamepad1.right_bumper) claw.position(0.8);
+        if(gamepad1.right_trigger>0) claw.position(clawIntakePos);
+        else if(gamepad1.right_bumper) claw.position(clawOutakePos);
 
 
-        if(gamepad1.left_trigger>0)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,4000);
-        if(gamepad1.left_bumper) verticalSlidePos = Range.clip(15*(verticalSlidePos - 1),0,4000);
+        if(gamepad1.left_trigger>0)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,5105);
+        if(gamepad1.left_bumper) verticalSlidePos = Range.clip(verticalSlidePos - 15,0,4000);
         if(gamepad1.b) verticalSlidePos =   0;
-        if(gamepad1.a) verticalSlidePos = 2990;
-        if(gamepad1.x) verticalSlidePos = 1100;
-        if(gamepad1.y) verticalSlidePos = 1900;
+        if(gamepad1.a) verticalSlidePos = slidePos1;
+        if(gamepad1.x) verticalSlidePos = slidePos2;
+        if(gamepad1.y) verticalSlidePos = slidePos3;
 
 
 
-        verticalSlide.setPosition(VerticalSpeed, (int) verticalSlidePos);
+        verticalSlide.setPosition(verticalSpeed, (int) verticalSlidePos);
 
         telemetry.addData("IntakePosition", claw.getPos());
         telemetry.addData("x:", imu.getPosition().x);

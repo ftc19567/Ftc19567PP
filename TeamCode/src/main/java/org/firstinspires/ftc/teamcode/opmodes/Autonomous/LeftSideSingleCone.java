@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(group = "official")
-public class ParkOnly extends LinearOpMode
+public class LeftSideSingleCone extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;
     private TrajectorySequence complete;
@@ -48,7 +48,7 @@ public class ParkOnly extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
-    Pose2d startPose = topRight;
+    Pose2d startPose = bottomLeft;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -160,18 +160,35 @@ public class ParkOnly extends LinearOpMode
         }
 
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,13))
-                .lineTo(new Vector2d(28,13))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(7,-17), Math.toRadians(-135))
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(13, -10, Math.toRadians(270)))
+                .turn(Math.toRadians(90))
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,37))
-                .lineTo(new Vector2d(30,37))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(7,-17), Math.toRadians(-135))
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(13, -10, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(13,-35,Math.toRadians(270)))
+                .turn(Math.toRadians(90))
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,60))
-                .lineTo(new Vector2d(28,60))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(7,-17), Math.toRadians(-135))
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(13, -10, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(13,-54,Math.toRadians(270)))
+                .turn(Math.toRadians(90))
                 .build();
 
         /* Actually do something useful */

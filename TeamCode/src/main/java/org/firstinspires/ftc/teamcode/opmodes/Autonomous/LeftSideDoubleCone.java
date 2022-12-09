@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,6 +14,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -23,7 +27,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(group = "official")
-public class ParkOnly extends LinearOpMode
+public class LeftSideDoubleCone extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;
     private TrajectorySequence complete;
@@ -48,11 +52,17 @@ public class ParkOnly extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
-    Pose2d startPose = topRight;
+    Pose2d startPose = bottomLeft;
+
+    SimpleBotVerticalSlide slides;
+    Claw claw;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
+        slides = new SimpleBotVerticalSlide(hardwareMap, telemetry);
+        claw = new Claw(hardwareMap, telemetry);
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
 
@@ -160,18 +170,76 @@ public class ParkOnly extends LinearOpMode
         }
 
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,13))
-                .lineTo(new Vector2d(28,13))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(8,-16), Math.toRadians(-135)) //drop cone
+                .addDisplacementMarker(() -> {
+                    slides.setPosition(verticalSpeed,slidePos1);
+                })
+
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    slides.setPosition(verticalSpeed, 0);
+                })
+                .lineToLinearHeading(new Pose2d(15, -10, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(36, -10, Math.toRadians(270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,-30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,-28), Math.toRadians(135))
+                .waitSeconds(1)
+                .addSpatialMarker(new Vector2d(36, -36), () -> {
+                    slides.setPosition(verticalSpeed,slidePos1);
+                })
+                //reset
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    slides.setPosition(verticalSpeed, 0);
+                })
+                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(90)))
+                .splineTo(new Vector2d(12,-10), Math.toRadians(90))
+                .turn(Math.toRadians(-90))
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,37))
-                .lineTo(new Vector2d(30,37))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(8,-16), Math.toRadians(-135)) //drop cone
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(15, -10, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(36, -10, Math.toRadians(270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,-30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,-28), Math.toRadians(135))
+                .waitSeconds(1)
+                //reset
+                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(135)))
+
+                .turn(Math.toRadians(-135))
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,60))
-                .lineTo(new Vector2d(28,60))
+                .lineTo(new Vector2d(58,-10))
+                .lineTo(new Vector2d(20,-12.5))
+                .splineTo(new Vector2d(8,-16), Math.toRadians(-135)) //drop cone
+
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(15, -10, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(36, -10, Math.toRadians(270)))
+                //go to next cone
+                .lineTo(new Vector2d(37,-30))
+                //drop cone
+                .waitSeconds(1)
+                .splineTo(new Vector2d(5,-28), Math.toRadians(135))
+                .waitSeconds(1)
+                //reset
+                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(135)))
+                .splineTo(new Vector2d(12,-59), Math.toRadians(-90))
+                .turn(Math.toRadians(-90))
                 .build();
 
         /* Actually do something useful */
