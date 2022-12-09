@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.HorizontalSpeed;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 

@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(group = "official")
 public class FullPath extends OpMode {
     SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
     TrajectorySequence full;

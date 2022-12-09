@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
-import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.ParkingLocation;
@@ -114,11 +112,11 @@ public class Parking extends LinearOpMode {
                 .forward(60)
                 .turn(Math.toRadians(90))
                 .addDisplacementMarker(() -> {
-                    slide.setPosition(VerticalSpeed, 3000);
+                    slide.setPosition(verticalSpeed, 3000);
                 }).waitSeconds(1)
                 .addDisplacementMarker(() -> {
                     claw.position(0);
-                    slide.setPosition(VerticalSpeed,0);
+                    slide.setPosition(verticalSpeed,0);
                 })
                 .build();
 
@@ -127,7 +125,7 @@ public class Parking extends LinearOpMode {
                 .strafeRight(12)
                 .forward(20)
                 .addDisplacementMarker(() -> {
-                        slide.setPosition(VerticalSpeed, 0);
+                        slide.setPosition(verticalSpeed, 0);
                 }).waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
                                     claw.position(1);

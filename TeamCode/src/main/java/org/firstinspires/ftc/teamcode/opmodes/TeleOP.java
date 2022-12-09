@@ -1,28 +1,20 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.HorizontalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.OutakeServoPosition;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.SecondArmFlipPosition;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.VerticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.OuttakeServoPosition;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.mechanisms.arm;
 import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
 import org.firstinspires.ftc.teamcode.mechanisms.roller;
 import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
-import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
 
 @TeleOp(name = "TeleOP")
 public class TeleOP extends OpMode {
@@ -110,7 +102,7 @@ public class TeleOP extends OpMode {
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
         rightBackNoEnc.setPower(backRightPower*Sense);
         //Intakes and Slides
-        if(gamepad1.right_trigger>0 || gamepad2.right_trigger>0) {Roller.intake(IntakeServoPosition);}else Roller.outake(OutakeServoPosition);
+        if(gamepad1.right_trigger>0 || gamepad2.right_trigger>0) {Roller.intake(IntakeServoPosition);}else Roller.outake(OuttakeServoPosition);
         if(gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
         if(gamepad2.left_trigger>0){verticalSlidePosition+=gamepad2.left_trigger*5;}
         if(gamepad1.left_bumper || gamepad2.left_bumper) {verticalSlidePosition = Range.clip(verticalSlidePosition-10, 0.0, verticalSlidePosition-5);}
@@ -127,7 +119,7 @@ public class TeleOP extends OpMode {
 //        aIsPressed = gamepad1.a;
 //        downIsPressed = gamepad1.dpad_down;
 //        upIsPressed = gamepad1.dpad_up;
-        VerticalSlide.setPosition(VerticalSpeed, (int) verticalSlidePosition);
+        VerticalSlide.setPosition(verticalSpeed, (int) verticalSlidePosition);
         telemetry.addData("ArmPosition", Arm.getPosition());
         telemetry.addData("IntakePosition", Roller.getPosition());
         telemetry.addData("Left", VerticalSlide.getLeftPosition());
