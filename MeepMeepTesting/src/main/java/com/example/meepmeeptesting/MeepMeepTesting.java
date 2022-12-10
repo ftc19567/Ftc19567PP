@@ -19,24 +19,19 @@ public class MeepMeepTesting {
                 // set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(62, 38, Math.toRadians(180)))
-                                .lineTo(new Vector2d(58,10))
-                                .lineTo(new Vector2d(20,12.5))
-                                .splineTo(new Vector2d(8,16), Math.toRadians(135)) //drop cone
+                        drive.trajectorySequenceBuilder(new Pose2d(62, -38, Math.toRadians(180)))
+                                .addTemporalMarker(0,() -> {
+                                    //claw.close();
+                                    //sleep(500);
+                                    //verticalSlide.setPosition(verticalSpeed, 200);
+                                })
+                                .waitSeconds(2)
 
-                                .waitSeconds(1)
-                                .lineToLinearHeading(new Pose2d(15, 10, Math.toRadians(135)))
-                                .lineToLinearHeading(new Pose2d(36, 10, Math.toRadians(-270)))
-                                //go to next cone
-                                .lineTo(new Vector2d(37,30))
-                                //drop cone
-                                .waitSeconds(1)
-                                .splineTo(new Vector2d(5,28), Math.toRadians(-135))
-                                .waitSeconds(1)
-                                //reset
-                                .lineToLinearHeading(new Pose2d(12, 36, Math.toRadians(-90)))
-                                .splineTo(new Vector2d(12,10), Math.toRadians(-90))
-                                .turn(Math.toRadians(90))
+                                .lineTo(new Vector2d(54,15))
+                                .lineTo(new Vector2d(28,15))
+                                .addDisplacementMarker(() ->{
+                                    //verticalSlide.setPosition(verticalSpeed, 0);
+                                })
                                 .build()
                 );
 

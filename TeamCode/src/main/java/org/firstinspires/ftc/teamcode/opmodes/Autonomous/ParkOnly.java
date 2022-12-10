@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -31,7 +34,8 @@ public class ParkOnly extends LinearOpMode
     OpenCvCamera camera;
     AprilTagPipeline aprilTagDetectionPipeline;
 
-    static final double FEET_PER_METER = 3.28084;
+    Claw claw;
+    SimpleBotVerticalSlide verticalSlide;
 
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -55,6 +59,9 @@ public class ParkOnly extends LinearOpMode
     {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
+
+        claw = new Claw(hardwareMap, telemetry);
+        verticalSlide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -160,18 +167,36 @@ public class ParkOnly extends LinearOpMode
         }
 
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,13))
-                .lineTo(new Vector2d(28,13))
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                    sleep(500);
+                    verticalSlide.setPosition(verticalSpeed, 200);
+                })
+                .waitSeconds(2)
+
+                .lineTo(new Vector2d(54,15))
+                .lineTo(new Vector2d(28,15))
+                .addSpatialMarker(new Vector2d(30,15), () ->{
+                    verticalSlide.setPosition(verticalSpeed, 0);
+                })
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,37))
-                .lineTo(new Vector2d(30,37))
+                .lineTo(new Vector2d(30,42))
                 .build();
 
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(54,60))
-                .lineTo(new Vector2d(28,60))
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                    sleep(500);
+                    verticalSlide.setPosition(verticalSpeed, 200);
+                })
+                .waitSeconds(2)
+                .lineTo(new Vector2d(58,64))
+                .lineTo(new Vector2d(28,64))
+                .addSpatialMarker(new Vector2d(35,-12), () ->{
+                    verticalSlide.setPosition(verticalSpeed, 0);
+                })
                 .build();
 
         /* Actually do something useful */
