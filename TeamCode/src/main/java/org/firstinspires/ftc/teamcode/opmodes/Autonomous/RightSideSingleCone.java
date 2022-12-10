@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -13,6 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
 import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -32,7 +36,9 @@ public class RightSideSingleCone extends LinearOpMode
     OpenCvCamera camera;
     AprilTagPipeline aprilTagDetectionPipeline;
 
-    static final double FEET_PER_METER = 3.28084;
+    Claw claw;
+    SimpleBotVerticalSlide verticalSlide;
+
 
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -54,8 +60,12 @@ public class RightSideSingleCone extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
+
+        claw = new Claw(hardwareMap, telemetry);
+        verticalSlide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -160,35 +170,77 @@ public class RightSideSingleCone extends LinearOpMode
             telemetry.update();
         }
 
-        TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                })
+                .waitSeconds(2)
                 .lineTo(new Vector2d(58,10))
-                .lineTo(new Vector2d(20,12.5))
-                .splineTo(new Vector2d(7,17), Math.toRadians(135))
-
                 .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
-                .turn(Math.toRadians(-90))
+                .lineTo(new Vector2d(20,12.5))
+                .addSpatialMarker(new Vector2d(50,15),() -> {
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                })
+                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                .addSpatialMarker(new Vector2d(8,16), () -> {
+                    claw.open();
+                })
+                .waitSeconds(2)
+                .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(90)))
+                .addSpatialMarker(new Vector2d(62, 25), () -> {
+                    verticalSlide.setPosition(verticalSpeed,slidePos1);
+                })
+                .lineToLinearHeading(new Pose2d(35, 12, Math.toRadians(-270)))
                 .build();
 
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                })
+                .waitSeconds(2)
                 .lineTo(new Vector2d(58,10))
-                .lineTo(new Vector2d(20,12.5))
-                .splineTo(new Vector2d(7,17), Math.toRadians(135))
-
                 .waitSeconds(1)
+                .lineTo(new Vector2d(20,12.5))
+                .addSpatialMarker(new Vector2d(50,15),() -> {
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                })
+                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                .addSpatialMarker(new Vector2d(8,16), () -> {
+                    claw.open();
+                })
+                .waitSeconds(2)
                 .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
+                .addSpatialMarker(new Vector2d(13, 35), () -> {
+                    verticalSlide.setPosition(verticalSpeed,slidePos1);
+                })
                 .lineToLinearHeading(new Pose2d(13,35,Math.toRadians(-270)))
                 .turn(Math.toRadians(-90))
                 .build();
 
-        TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                })
+                .waitSeconds(2)
                 .lineTo(new Vector2d(58,10))
-                .lineTo(new Vector2d(20,12.5))
-                .splineTo(new Vector2d(7,17), Math.toRadians(135))
-
                 .waitSeconds(1)
+                .lineTo(new Vector2d(20,12.5))
+                .addSpatialMarker(new Vector2d(50,15),() -> {
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                })
+                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                .addSpatialMarker(new Vector2d(8,16), () -> {
+                    claw.open();
+                })
+                .waitSeconds(2)
                 .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
-                .lineToLinearHeading(new Pose2d(13,56,Math.toRadians(-270)))
+                .addSpatialMarker(new Vector2d(13, 35), () -> {
+                    verticalSlide.setPosition(verticalSpeed,slidePos1);
+                })
+                .lineToLinearHeading(new Pose2d(13,54,Math.toRadians(-270)))
                 .turn(Math.toRadians(-90))
                 .build();
 
