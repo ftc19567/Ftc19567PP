@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "official")
+//@Autonomous(group = "official")
 public class RightSideDoubleCone extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;

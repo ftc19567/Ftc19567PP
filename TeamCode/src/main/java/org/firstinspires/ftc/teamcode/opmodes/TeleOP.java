@@ -1,20 +1,25 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.IntakeServoPosition;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.OuttakeServoPosition;
+
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOuttakePos;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos2;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos3;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.mechanisms.arm;
-import org.firstinspires.ftc.teamcode.mechanisms.horizontalSlide;
-import org.firstinspires.ftc.teamcode.mechanisms.roller;
-import org.firstinspires.ftc.teamcode.mechanisms.verticalSlide;
+
+import org.firstinspires.ftc.teamcode.mechanisms.Claw;
+import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
+import org.firstinspires.ftc.teamcode.util.AxisDirection;
+import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 
 @TeleOp(name = "TeleOP")
 public class TeleOP extends OpMode {
@@ -23,31 +28,33 @@ public class TeleOP extends OpMode {
 //    boolean downIsPressed;
 //    boolean upIsPressed;
 //    boolean bIsPressed;
+
     boolean Slowmode;
     double Sense;
-    horizontalSlide HorizontalSlide;
-    arm Arm;
-    verticalSlide VerticalSlide;
-    roller Roller;
-    //Drive
-//    DcMotor frontLeftMotor = null;
-//    DcMotor frontRightMotor = null;
-//    DcMotor backLeftMotor = null;
-//    DcMotor backRightMotor = null;
-    DcMotor leftFrontLeftEnc;
-    DcMotor leftBackRightEnc;
-    DcMotor rightFrontBackEnc;
-    DcMotor rightBackNoEnc;
+
     double frontLeftPower;
     double backLeftPower;
     double frontRightPower;
     double backRightPower;
-    double verticalSlidePosition = 0;
+
     double robotAngle;
     double r;
     double y;
     double x;
     double rx;
+
+    double verticalSlidePos = 0;
+    double intakePos = clawOuttakePos;
+
+    DcMotor leftFrontLeftEnc;
+    DcMotor leftBackRightEnc;
+    DcMotor rightFrontBackEnc;
+    DcMotor rightBackNoEnc;
+
+    Claw claw;
+    SimpleBotVerticalSlide verticalSlide;
+
+    BNO055IMU imu;
 
     @Override
     public void init() {
@@ -55,18 +62,25 @@ public class TeleOP extends OpMode {
         rightFrontBackEnc = hardwareMap.get(DcMotor.class, "rightFront");
         leftBackRightEnc = hardwareMap.get(DcMotor.class, "leftRear");
         rightBackNoEnc = hardwareMap.get(DcMotor.class, "rightRear");
+
         leftFrontLeftEnc.setDirection(DcMotor.Direction.FORWARD);
         rightFrontBackEnc.setDirection(DcMotor.Direction.REVERSE);
         leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
         rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE);
+
         leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontLeftEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        Roller = new roller(hardwareMap, telemetry);
-        VerticalSlide = new verticalSlide(hardwareMap, telemetry);
-//        HorizontalSlide = new horizontalSlide(hardwareMap, telemetry);
-        Arm = new arm(hardwareMap,telemetry);
-//        Arm.setDirection(Servo.Direction.REVERSE);
+
+        claw = new Claw(hardwareMap, telemetry);
+        verticalSlide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
+        BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
+
     }
 
     @Override
@@ -84,11 +98,6 @@ public class TeleOP extends OpMode {
         y = -gamepad1.left_stick_y;
         x = gamepad1.left_stick_x;
         rx = gamepad1.right_stick_x;
-//        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-//        frontLeftPower = (y+x+rx)/denominator;
-//        backLeftPower = (y-x+rx)/denominator;
-//        frontRightPower = (y-x-rx)/denominator;
-//        backRightPower = (y+x-rx)/denominator;
 
         r = Math.hypot(x,y);
         robotAngle = Math.atan2(-y, x) - Math.PI / 4;
@@ -101,29 +110,40 @@ public class TeleOP extends OpMode {
         leftBackRightEnc.setPower(backLeftPower*Sense);
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
         rightBackNoEnc.setPower(backRightPower*Sense);
-        //Intakes and Slides
-        if(gamepad1.right_trigger>0 || gamepad2.right_trigger>0) {Roller.intake(IntakeServoPosition);}else Roller.outake(OuttakeServoPosition);
-        if(gamepad1.left_trigger>0){verticalSlidePosition+=gamepad1.left_trigger*5;}
-        if(gamepad2.left_trigger>0){verticalSlidePosition+=gamepad2.left_trigger*5;}
-        if(gamepad1.left_bumper || gamepad2.left_bumper) {verticalSlidePosition = Range.clip(verticalSlidePosition-10, 0.0, verticalSlidePosition-5);}
-//        if(gamepad1.dpad_right){HorizontalSlide.extend(HorizontalSpeed);} else if(gamepad1.dpad_left){HorizontalSlide.retract(HorizontalSpeed);}
-//        else{HorizontalSlide.stop();}
-        if(gamepad1.dpad_down){Slowmode = !Slowmode;}
-        if(Slowmode){Sense = 0.3;}
+
+        if(gamepad1.back)Slowmode = !Slowmode;
+        if(Slowmode)Sense = 0.8;
         else Sense = 1;
-        if(gamepad1.x|| gamepad2.x){Arm.flipToFirst();}
-        if(gamepad1.y||gamepad2.y){Arm.flipToSecond();}
-        if(gamepad1.dpad_up||gamepad2.dpad_up){Arm.flipToThird();} //when tested this didn't work, don't know why
-        if(gamepad1.b||gamepad2.b)verticalSlidePosition=235;
-//        bIsPressed = gamepad1.b;
-//        aIsPressed = gamepad1.a;
-//        downIsPressed = gamepad1.dpad_down;
-//        upIsPressed = gamepad1.dpad_up;
-        VerticalSlide.setPosition(verticalSpeed, (int) verticalSlidePosition);
-        telemetry.addData("ArmPosition", Arm.getPosition());
-        telemetry.addData("IntakePosition", Roller.getPosition());
-        telemetry.addData("Left", VerticalSlide.getLeftPosition());
-        telemetry.addData("Right", VerticalSlide.getRightPosition());
+
+        //Intake
+        //if(gamepad1.dpad_down) intakePos = clawIntakePos;
+        //else if(gamepad1.dpad_up) intakePos = clawOuttakePos;
+        if(gamepad1.right_trigger > 0) claw.close();
+        if(gamepad1.right_bumper) claw.open();
+
+
+        if(gamepad1.dpad_up)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,6000);
+        if(gamepad1.dpad_down) verticalSlidePos = Range.clip(verticalSlidePos - 15,0,6000);
+
+        if(gamepad1.b) verticalSlidePos =  0;
+        if(gamepad1.a) verticalSlidePos = slidePos1;
+        if(gamepad1.x) verticalSlidePos = slidePos2;
+        if(gamepad1.y) verticalSlidePos = slidePos3;
+
+        if(gamepad1.left_trigger > 0) verticalSlidePos =  200;
+
+
+
+        verticalSlide.setPosition(verticalSpeed, (int) verticalSlidePos);
+        //claw.position(intakePos);
+
+        telemetry.addData("IntakePosition", claw.getPos());
+        telemetry.addData("x:", imu.getPosition().x);
+        telemetry.addData("y:", imu.getPosition().y);
+        telemetry.addData("z:", imu.getPosition().z);
+        telemetry.addData("imu", imu.getAngularOrientation().firstAngle);
+        telemetry.addData("Position", verticalSlide.getPosition());
+        telemetry.addData("Servo Port", claw.portNum());
         telemetry.update();
     }
 
