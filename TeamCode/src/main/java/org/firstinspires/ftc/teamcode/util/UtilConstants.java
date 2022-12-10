@@ -30,6 +30,6 @@ public class UtilConstants {
     public static LOCATION location= LOCATION.FIRST;
     public static int tag = 0;
 
-    public static final Pose2d topRight = new Pose2d(62, 38, Math.toRadians(180));
-    public static final Pose2d bottomLeft = new Pose2d(71, -38, Math.toRadians(180));
+    public static final Pose2d topRight = new Pose2d(69, 38, Math.toRadians(180));
+    public static final Pose2d bottomLeft = new Pose2d(62, -38, Math.toRadians(180));
 }
