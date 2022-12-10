@@ -172,8 +172,6 @@ public class LeftSideSingleCone extends LinearOpMode
         TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(0,() -> {
                     claw.close();
-                    sleep(500);
-                    verticalSlide.setPosition(verticalSpeed, 200);
                 })
                 .waitSeconds(2)
                 .lineTo(new Vector2d(58,-10))
@@ -198,8 +196,6 @@ public class LeftSideSingleCone extends LinearOpMode
         TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(0,() -> {
                     claw.close();
-                    sleep(500);
-                    verticalSlide.setPosition(verticalSpeed, 200);
                 })
                 .waitSeconds(2)
                 .lineTo(new Vector2d(58,-10))
@@ -225,8 +221,6 @@ public class LeftSideSingleCone extends LinearOpMode
         TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(0,() -> {
                     claw.close();
-                    sleep(500);
-                    verticalSlide.setPosition(verticalSpeed, 200);
                 })
                 .waitSeconds(2)
                 .lineTo(new Vector2d(58,-10))
