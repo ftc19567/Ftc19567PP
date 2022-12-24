@@ -8,6 +8,8 @@ import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
+import java.util.Vector;
+
 public class MeepMeepTesting {
     public static void main(String args[]) {
         MeepMeep mm = new MeepMeep(800);
@@ -19,18 +21,107 @@ public class MeepMeepTesting {
                 // set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(62, -38, Math.toRadians(180)))
+                        drive.trajectorySequenceBuilder(new Pose2d(32.5, -62, Math.toRadians(90)))
                                 .addTemporalMarker(0,() -> {
                                     //claw.close();
-                                    //sleep(500);
-                                    //verticalSlide.setPosition(verticalSpeed, 200);
                                 })
-                                .waitSeconds(2)
+                                .splineToConstantHeading(new Vector2d(10,-58),Math.toRadians(90))
+                                .addSpatialMarker(new Vector2d(25,-62),() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
 
-                                .lineTo(new Vector2d(54,15))
-                                .lineTo(new Vector2d(28,15))
+                                })
+                                .splineTo(new Vector2d(6,-30), Math.toRadians(135))//line up to pole
+                                .addSpatialMarker(new Vector2d(5,-28), () -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(0.5)
+                                .lineToLinearHeading(new Pose2d(11, -37, Math.toRadians(90)))
+                                .splineTo(new Vector2d(23,-10), Math.toRadians(0))//line up to pole
+                                .addSpatialMarker(new Vector2d(7, -21), () -> {
+                                    //verticalSlide.setPosition(verticalSpeed,700);
+                                })
+                                .splineTo(new Vector2d(59.5,-12),Math.toRadians(0))//grab cone
+
                                 .addDisplacementMarker(() ->{
-                                    //verticalSlide.setPosition(verticalSpeed, 0);
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                })
+                                .waitSeconds(0.5)//go to pole
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
+                                .addDisplacementMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(1)
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .addDisplacementMarker(() ->{
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                })
+                                .waitSeconds(0.5)//go to pole
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
+                                .addDisplacementMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(1)
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .addDisplacementMarker(() ->{
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                })
+                                .waitSeconds(0.5)//go to pole
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
+                                .addDisplacementMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(1)
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .addDisplacementMarker(() ->{
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                })
+                                .waitSeconds(0.5)//go to pole
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
+                                .addDisplacementMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(1)
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .addDisplacementMarker(() ->{
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                })
+                                .waitSeconds(0.5)//go to pole
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
+                                .addDisplacementMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
+                                    //claw.open();
+                                })
+                                .waitSeconds(1)
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .addDisplacementMarker(() ->{
+                                    //claw.close();
+                                    //sleep(100);
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
                                 })
                                 .build()
                 );
@@ -40,7 +131,6 @@ public class MeepMeepTesting {
         mm.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                // add both of the declared bot entities
                 .addEntity(myFirstbot)
                 .start();
     }
