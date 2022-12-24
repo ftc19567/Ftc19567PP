@@ -149,7 +149,118 @@ public class RightSideSingleCone extends LinearOpMode
             }
 
             telemetry.update();
-            sleep(20);
+
+            TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
+                    .addTemporalMarker(0,() -> {
+                        claw.close();
+                    })
+                    .waitSeconds(2)
+                    .lineTo(new Vector2d(58,10))
+                    .waitSeconds(1)
+                    .lineTo(new Vector2d(20,12.5))
+                    .addSpatialMarker(new Vector2d(56,15),() -> {
+                        verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                    })
+                    .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                    .addSpatialMarker(new Vector2d(8,16), () -> {
+                        claw.open();
+                    })
+                    .waitSeconds(2)
+                    .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(90)))
+                    .addSpatialMarker(new Vector2d(62, 25), () -> {
+                        verticalSlide.setPosition(verticalSpeed,slidePos1);
+                    })
+                    .lineToLinearHeading(new Pose2d(35, 12, Math.toRadians(-270)))
+                    .build();
+
+            TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
+                    .addTemporalMarker(0,() -> {
+                        claw.close();
+                    })
+                    .waitSeconds(2)
+                    .lineTo(new Vector2d(58,10))
+                    .waitSeconds(1)
+                    .lineTo(new Vector2d(20,12.5))
+                    .addSpatialMarker(new Vector2d(56,15),() -> {
+                        verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                    })
+                    .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                    .addSpatialMarker(new Vector2d(8,16), () -> {
+                        claw.open();
+                    })
+                    .waitSeconds(2)
+                    .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
+                    .addSpatialMarker(new Vector2d(13, 35), () -> {
+                        verticalSlide.setPosition(verticalSpeed,slidePos1);
+                    })
+                    .lineToLinearHeading(new Pose2d(13,35,Math.toRadians(-270)))
+                    .turn(Math.toRadians(-90))
+                    .build();
+
+            TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
+                    .addTemporalMarker(0,() -> {
+                        claw.close();
+                    })
+                    .waitSeconds(2)
+                    .lineTo(new Vector2d(56,10))
+                    .waitSeconds(1)
+                    .lineTo(new Vector2d(20,12.5))
+                    .addSpatialMarker(new Vector2d(56,15),() -> {
+                        verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                    })
+                    .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
+                    .addSpatialMarker(new Vector2d(8,16), () -> {
+                        claw.open();
+                    })
+                    .waitSeconds(2)
+                    .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
+                    .addSpatialMarker(new Vector2d(13, 35), () -> {
+                        verticalSlide.setPosition(verticalSpeed,slidePos1);
+                    })
+                    .lineToLinearHeading(new Pose2d(13,54,Math.toRadians(-270)))
+                    .turn(Math.toRadians(-90))
+                    .build();
+
+            /* Actually do something useful */
+            if(tagOfInterest == null || tagOfInterest.id == tagFirstId)
+            {
+                location = LOCATION.FIRST;
+            }
+            else if (tagOfInterest.id == tagSecondId)
+            {
+                location = LOCATION.SECOND;
+            }
+            else if (tagOfInterest.id == tagThirdId)
+            {
+                location = LOCATION.THIRD;
+            }
+
+            switch(location) {
+
+                case FIRST: {
+
+                    complete = first;
+                    telemetry.addData("OpenCV", "Pos 1 Detected");
+                    telemetry.update();
+                    break;
+                }
+
+                case SECOND: {
+                    complete = second;
+                    telemetry.addData("OpenCV", "Pos 2 Detected");
+                    telemetry.update();
+                    break;
+                }
+                case THIRD: {
+                    complete = third;
+                    telemetry.addData("OpenCV", "Pos 3 Detected");
+                    telemetry.update();
+                    break;
+                }
+            }
         }
 
         /*
@@ -168,118 +279,6 @@ public class RightSideSingleCone extends LinearOpMode
         {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
-        }
-
-        TrajectorySequence third = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(0,() -> {
-                    claw.close();
-                })
-                .waitSeconds(2)
-                .lineTo(new Vector2d(58,10))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(20,12.5))
-                .addSpatialMarker(new Vector2d(50,15),() -> {
-                    verticalSlide.setPosition(verticalSpeed, slidePos1);
-
-                })
-                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
-                .addSpatialMarker(new Vector2d(8,16), () -> {
-                    claw.open();
-                })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(90)))
-                .addSpatialMarker(new Vector2d(62, 25), () -> {
-                    verticalSlide.setPosition(verticalSpeed,slidePos1);
-                })
-                .lineToLinearHeading(new Pose2d(35, 12, Math.toRadians(-270)))
-                .build();
-
-        TrajectorySequence second = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(0,() -> {
-                    claw.close();
-                })
-                .waitSeconds(2)
-                .lineTo(new Vector2d(58,10))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(20,12.5))
-                .addSpatialMarker(new Vector2d(50,15),() -> {
-                    verticalSlide.setPosition(verticalSpeed, slidePos1);
-
-                })
-                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
-                .addSpatialMarker(new Vector2d(8,16), () -> {
-                    claw.open();
-                })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
-                .addSpatialMarker(new Vector2d(13, 35), () -> {
-                    verticalSlide.setPosition(verticalSpeed,slidePos1);
-                })
-                .lineToLinearHeading(new Pose2d(13,35,Math.toRadians(-270)))
-                .turn(Math.toRadians(-90))
-                .build();
-
-        TrajectorySequence first = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(0,() -> {
-                    claw.close();
-                })
-                .waitSeconds(2)
-                .lineTo(new Vector2d(58,10))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(20,12.5))
-                .addSpatialMarker(new Vector2d(50,15),() -> {
-                    verticalSlide.setPosition(verticalSpeed, slidePos1);
-
-                })
-                .splineTo(new Vector2d(8,16), Math.toRadians(135))//line up to pole
-                .addSpatialMarker(new Vector2d(8,16), () -> {
-                    claw.open();
-                })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(13, 10, Math.toRadians(-270)))
-                .addSpatialMarker(new Vector2d(13, 35), () -> {
-                    verticalSlide.setPosition(verticalSpeed,slidePos1);
-                })
-                .lineToLinearHeading(new Pose2d(13,54,Math.toRadians(-270)))
-                .turn(Math.toRadians(-90))
-                .build();
-
-        /* Actually do something useful */
-        if(tagOfInterest == null || tagOfInterest.id == tagFirstId)
-        {
-            location = LOCATION.FIRST;
-        }
-        else if (tagOfInterest.id == tagSecondId)
-        {
-            location = LOCATION.SECOND;
-        }
-        else if (tagOfInterest.id == tagThirdId)
-        {
-            location = LOCATION.THIRD;
-        }
-
-        switch(location) {
-
-            case FIRST: {
-
-                complete = first;
-                telemetry.addData("OpenCV", "Pos 1 Detected");
-                telemetry.update();
-                break;
-            }
-
-            case SECOND: {
-                complete = second;
-                telemetry.addData("OpenCV", "Pos 2 Detected");
-                telemetry.update();
-                break;
-            }
-            case THIRD: {
-                complete = third;
-                telemetry.addData("OpenCV", "Pos 3 Detected");
-                telemetry.update();
-                break;
-            }
         }
 
         if (!isStopRequested())

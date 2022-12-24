@@ -122,7 +122,7 @@ public class TeleOP extends OpMode {
         if(gamepad1.right_bumper) claw.open();
 
 
-        if(gamepad1.dpad_up)verticalSlidePos = Range.clip(verticalSlidePos + gamepad1.left_trigger*10,0,6000);
+        if(gamepad1.dpad_up)verticalSlidePos = Range.clip(verticalSlidePos + 15,0,6000);
         if(gamepad1.dpad_down) verticalSlidePos = Range.clip(verticalSlidePos - 15,0,6000);
 
         if(gamepad1.b) verticalSlidePos =  0;

@@ -22,14 +22,14 @@ public class UtilConstants {
     public static final double clawIntakePos = 0;
     public static final double clawOuttakePos = 1;
 
-    public static final int slidePos1 = 3275;
-    public static final int slidePos2 = 2300;
-    public static final int slidePos3 = 1600;
+    public static final int slidePos1 = 3470;
+    public static final int slidePos2 = 2670;
+    public static final int slidePos3 = 1845;
 
 
     public static LOCATION location= LOCATION.FIRST;
     public static int tag = 0;
 
-    public static final Pose2d topRight = new Pose2d(57, 38, Math.toRadians(180));
+    public static final Pose2d topRight = new Pose2d(57, 32.5, Math.toRadians(180));
     public static final Pose2d bottomLeft = new Pose2d(62, -38, Math.toRadians(180));
 }
