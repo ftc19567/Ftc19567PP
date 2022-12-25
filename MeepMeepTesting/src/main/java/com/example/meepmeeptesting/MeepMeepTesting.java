@@ -14,8 +14,7 @@ public class MeepMeepTesting {
     public static void main(String args[]) {
         MeepMeep mm = new MeepMeep(800);
 
-        // Declare first bot
-        RoadRunnerBotEntity myFirstbot = new DefaultBotBuilder(mm)
+        RoadRunnerBotEntity bot = new DefaultBotBuilder(mm)
                 // set first bot to be blue
                 .setColorScheme(new ColorSchemeBlueDark())
                 // set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -30,19 +29,17 @@ public class MeepMeepTesting {
                                     //verticalSlide.setPosition(verticalSpeed, 3130);
 
                                 })
-                                .splineTo(new Vector2d(6,-30), Math.toRadians(135))//line up to pole
+                                .splineTo(new Vector2d(13.5,-13), Math.toRadians(90))
+                                .splineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)), Math.toRadians(0))
                                 .addSpatialMarker(new Vector2d(5,-28), () -> {
                                     //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
                                     //claw.open();
                                 })
                                 .waitSeconds(0.5)
-                                .lineToLinearHeading(new Pose2d(11, -37, Math.toRadians(90)))
-                                .splineTo(new Vector2d(23,-10), Math.toRadians(0))//line up to pole
                                 .addSpatialMarker(new Vector2d(7, -21), () -> {
                                     //verticalSlide.setPosition(verticalSpeed,700);
                                 })
-                                .splineTo(new Vector2d(59.5,-12),Math.toRadians(0))//grab cone
-
+                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
                                 .addDisplacementMarker(() ->{
                                     //claw.close();
                                     //sleep(100);
@@ -131,7 +128,7 @@ public class MeepMeepTesting {
         mm.setBackground(MeepMeep.Background.FIELD_POWERPLAY_KAI_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myFirstbot)
+                .addEntity(bot)
                 .start();
     }
 }
