@@ -18,7 +18,7 @@ public class MeepMeepTesting {
                 // set first bot to be blue
                 .setColorScheme(new ColorSchemeBlueDark())
                 // set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(52.48291908330528, 52.48291908330528, Math.toRadians(180), Math.toRadians(180), 13)
+                .setConstraints(73.17330064499293, 73.17330064499293, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(32.5, -62, Math.toRadians(90)))
                                 .addTemporalMarker(0,() -> {

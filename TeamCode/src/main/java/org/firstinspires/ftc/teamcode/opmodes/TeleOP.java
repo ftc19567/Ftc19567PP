@@ -13,6 +13,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 
@@ -59,14 +60,14 @@ public class TeleOP extends OpMode {
     @Override
     public void init() {
         leftFrontLeftEnc = hardwareMap.get(DcMotor.class, "LFLE");
-        rightFrontBackEnc = hardwareMap.get(DcMotor.class, "LBRE");
-        leftBackRightEnc = hardwareMap.get(DcMotor.class, "RFME");
+        rightFrontBackEnc = hardwareMap.get(DcMotor.class, "RFME");
+        leftBackRightEnc = hardwareMap.get(DcMotor.class, "LBRE");
         rightBackNoEnc = hardwareMap.get(DcMotor.class, "RBNE");
 
-        leftFrontLeftEnc.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontBackEnc.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontLeftEnc.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontBackEnc.setDirection(DcMotor.Direction.FORWARD);
         leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
-        rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE);
+        rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE );
 
         leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -85,19 +86,21 @@ public class TeleOP extends OpMode {
 
     @Override
     public void init_loop() {
-
+        telemetry.addData("Status", "Awaiting Start");
+        telemetry.update();
     }
 
     @Override
     public void start() {
-        
+        telemetry.addData("Status", "Started");
+        telemetry.update();
     } 
 
     @Override
     public void loop() {
         y = -gamepad1.left_stick_y;
-        x = gamepad1.left_stick_x;
-        rx = gamepad1.right_stick_x;
+        rx = gamepad1.left_stick_x;
+        x = gamepad1.right_stick_x;
 
         r = Math.hypot(x,y);
         robotAngle = Math.atan2(-y, x) - Math.PI / 4;
