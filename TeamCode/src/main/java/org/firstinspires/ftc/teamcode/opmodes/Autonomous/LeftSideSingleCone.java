@@ -255,7 +255,7 @@ public class LeftSideSingleCone extends LinearOpMode
                 }
                 case THIRD: {
                     complete = third;
-                    telemetry.addData("OpenCV", "Pos 3 Detected");
+                    telemetry.addData("OpenCV", "Pos 3 Detected you are poopoo");
                     telemetry.update();
                     break;
                 }
