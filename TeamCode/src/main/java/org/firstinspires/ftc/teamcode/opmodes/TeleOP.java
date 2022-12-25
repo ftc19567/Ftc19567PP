@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos3;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,6 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.util.AxisDirection;
@@ -69,6 +71,8 @@ public class TeleOP extends OpMode {
         leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
         rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE );
 
+
+
         leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFrontLeftEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -98,7 +102,13 @@ public class TeleOP extends OpMode {
 
     @Override
     public void loop() {
-        y = -gamepad1.left_stick_y;
+        // Initialize SampleMecanumDrive
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        // We want to turn off velocity control for teleop
+        // Velocity control per wheel is not necessary outside of motion profiled auto
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       /* y = -gamepad1.left_stick_y;
         rx = gamepad1.left_stick_x;
         x = gamepad1.right_stick_x;
 
@@ -112,8 +122,18 @@ public class TeleOP extends OpMode {
         rightFrontBackEnc.setPower(frontRightPower*Sense);
         leftBackRightEnc.setPower(backLeftPower*Sense);
         leftFrontLeftEnc.setPower(frontLeftPower*Sense);
-        rightBackNoEnc.setPower(backRightPower*Sense);
+        rightBackNoEnc.setPower(backRightPower*Sense);\
 
+        */
+            drive.setWeightedDrivePower(
+                    new Pose2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.right_stick_x,
+                            -gamepad1.left_stick_x
+                    )
+            );
+
+            drive.update();
         if(gamepad1.back)Slowmode = !Slowmode;
         if(Slowmode)Sense = 0.8;
         else Sense = 1;
