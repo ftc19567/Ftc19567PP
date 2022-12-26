@@ -6,15 +6,12 @@ import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOuttakePos;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos2;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos3;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.strafeSense;
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.turnSense;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 
@@ -32,8 +29,8 @@ public class TeleOP extends OpMode {
 //    boolean upIsPressed;
 //    boolean bIsPressed;
 
-    boolean Slowmode;
-    double Sense;
+    boolean slowMode;
+    double sense;
 
     double frontLeftPower;
     double backLeftPower;
@@ -108,11 +105,12 @@ public class TeleOP extends OpMode {
         // We want to turn off velocity control for teleop
         // Velocity control per wheel is not necessary outside of motion profiled auto
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       /* y = -gamepad1.left_stick_y;
-        rx = gamepad1.left_stick_x;
-        x = gamepad1.right_stick_x;
 
-        r = Math.hypot(x,y);
+        x = -gamepad1.left_stick_y * sense;
+        rx = -gamepad1.left_stick_x * (sense * 0.8);
+        y = -gamepad1.right_stick_x * sense;
+
+        /*r = Math.hypot(x,y);
         robotAngle = Math.atan2(-y, x) - Math.PI / 4;
         frontLeftPower = (strafeSense*r*Math.sin(robotAngle)) - (rx*turnSense);
         frontRightPower = (strafeSense*r*Math.cos(robotAngle)) +(rx*turnSense);
@@ -125,18 +123,9 @@ public class TeleOP extends OpMode {
         rightBackNoEnc.setPower(backRightPower*Sense);\
 
         */
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.right_stick_x,
-                            -gamepad1.left_stick_x
-                    )
-            );
-
-            drive.update();
-        if(gamepad1.back)Slowmode = !Slowmode;
-        if(Slowmode)Sense = 0.8;
-        else Sense = 1;
+        if(gamepad1.back) slowMode = !slowMode;
+        if(slowMode) sense = 0.4;
+        else sense = 0.8;
 
         //Intake
         //if(gamepad1.dpad_down) intakePos = clawIntakePos;
@@ -159,6 +148,9 @@ public class TeleOP extends OpMode {
 
         verticalSlide.setPosition(verticalSpeed, (int) verticalSlidePos);
         //claw.position(intakePos);
+
+        drive.setWeightedDrivePower(new Pose2d(x, y, rx));
+        drive.update();
 
         telemetry.addData("IntakePosition", claw.getPos());
         telemetry.addData("x:", imu.getPosition().x);

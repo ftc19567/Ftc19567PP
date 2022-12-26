@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
-import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;

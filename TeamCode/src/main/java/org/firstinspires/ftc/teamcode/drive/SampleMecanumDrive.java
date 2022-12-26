@@ -58,9 +58,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public static double LATERAL_MULTIPLIER = 1.12;
 
-    public static double VX_WEIGHT = 0.8;
-    public static double VY_WEIGHT = 0.8;
-    public static double OMEGA_WEIGHT = 0.5;
+    public static double VX_WEIGHT = 1;
+    public static double VY_WEIGHT = 1;
+    public static double OMEGA_WEIGHT = 1;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 

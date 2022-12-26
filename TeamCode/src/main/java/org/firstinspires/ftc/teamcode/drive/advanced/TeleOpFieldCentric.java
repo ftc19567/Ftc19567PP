@@ -43,7 +43,7 @@ public class TeleOpFieldCentric extends LinearOpMode {
             // Then, rotate that vector by the inverse of that heading
             Vector2d input = new Vector2d(
                     -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x
+                    -gamepad1.right_stick_x
             ).rotated(-poseEstimate.getHeading());
 
             // Pass in the rotated input + right stick value for rotation
@@ -52,7 +52,7 @@ public class TeleOpFieldCentric extends LinearOpMode {
                     new Pose2d(
                             input.getX(),
                             input.getY(),
-                            -gamepad1.right_stick_x
+                            -gamepad1.left_stick_x
                     )
             );
 

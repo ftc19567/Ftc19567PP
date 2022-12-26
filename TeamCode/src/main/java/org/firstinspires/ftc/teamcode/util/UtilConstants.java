@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.util;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
-
 public class UtilConstants {
     static public final double verticalSpeed = 1;
     static public final double HorizontalSpeed = 0.8;
