@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
@@ -18,7 +17,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
-import org.firstinspires.ftc.teamcode.pipelines.LOCATION;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
