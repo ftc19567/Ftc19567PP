@@ -17,7 +17,7 @@ public class SimpleBotVerticalSlide implements MechanismTemplate{
     @Override
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-        verticalMotor = hwMap.get(DcMotor.class, "VerticalSlide");
+        verticalMotor = hwMap.get(DcMotor.class, "verticalSlide");
         verticalMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         verticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

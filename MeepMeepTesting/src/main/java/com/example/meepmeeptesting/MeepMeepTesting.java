@@ -24,14 +24,27 @@ public class MeepMeepTesting {
                                 .addTemporalMarker(0,() -> {
                                     //claw.close();
                                 })
-                                .splineToConstantHeading(new Vector2d(10,-58),Math.toRadians(90))
                                 .addSpatialMarker(new Vector2d(25,-62),() -> {
                                     //verticalSlide.setPosition(verticalSpeed, 3130);
 
                                 })
-                                .splineTo(new Vector2d(13.5,-13), Math.toRadians(90))
-                                .splineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)), Math.toRadians(0))
-                                .addSpatialMarker(new Vector2d(5,-28), () -> {
+                                .splineTo(new Vector2d(35,-15), Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(18,-12), Math.toRadians(90))
+                                .addTemporalMarker(2.7,() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition()-400);
+                                    //claw.open();
+                                })
+                                /*.addTemporalMarker(0,() -> {
+                                    //claw.close();
+                                })
+                                .addSpatialMarker(new Vector2d(25,-62),() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+
+                                })
+                                .splineTo(new Vector2d(35,-15), Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(23,-12), Math.toRadians(90))
+                                //.splineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)), Math.toRadians(0))
+                                .addSpatialMarker(new Vector2d(23.5,0), () -> {
                                     //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
                                     //claw.open();
                                 })
@@ -120,6 +133,8 @@ public class MeepMeepTesting {
                                     //sleep(100);
                                     //verticalSlide.setPosition(verticalSpeed, 3130);
                                 })
+
+                                 */
                                 .build()
                 );
 
