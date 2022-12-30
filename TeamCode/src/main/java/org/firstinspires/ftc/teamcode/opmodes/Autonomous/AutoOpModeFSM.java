@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.topRight;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -26,7 +30,7 @@ public class AutoOpModeFSM extends LinearOpMode {
     Claw claw; 
     SimpleBotVerticalSlide verticalSlide;
 
-    Pose2d startPose = bottomLeft;
+    Pose2d startPose = topRight;
 
     double parkX;
     double parkY;
@@ -49,9 +53,11 @@ public class AutoOpModeFSM extends LinearOpMode {
 
         //TODO: edit while loop
         while(!opModeIsActive()) {
+            claw.close();
             telemetry.addData("Tag",location); //Inform the driver of the detected location
             telemetry.update();
         }
+
         if(!opModeIsActive() || isStopRequested()) return;
 
         waitForStart();
@@ -80,16 +86,30 @@ public class AutoOpModeFSM extends LinearOpMode {
         currentState = AUTO_STATE.TRAVELING_TO_POLE;
 
         TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
-                        .build();
-        TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
+                .addTemporalMarker(0,() -> {
+                    claw.close();
+                })
+                .addSpatialMarker(new Vector2d(25,-62),() -> {
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+
+                })
+                .splineTo(new Vector2d(35,-15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(18,-12), Math.toRadians(90))
+                .addTemporalMarker(2.7,() -> {
+                    verticalSlide.setPosition(verticalSpeed, 2500);
+                    sleep(500);
+                    claw.open();
+                })
+                .waitSeconds(2)
+                .build();
+        /*TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
                         .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                         .build();
         TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
                         .build();
+         */
 
-
-        claw.open();
         drive.followTrajectorySequenceAsync(preloadSeq);
 
         master:while(opModeIsActive() && !isStopRequested()){
@@ -115,7 +135,7 @@ public class AutoOpModeFSM extends LinearOpMode {
                     telemetry.addData("State Machine","Collecting Cone");
                     telemetry.update();
                     currentState = AUTO_STATE.TRAVELING_TO_POLE;
-                    drive.followTrajectorySequenceAsync(deliverCone);
+                    //drive.followTrajectorySequenceAsync(deliverCone);
                     break;
                 case TRAVELING_TO_POLE:
                         telemetry.addData("State Machine","Traveling to Pole");
@@ -128,11 +148,11 @@ public class AutoOpModeFSM extends LinearOpMode {
                     telemetry.update();
                     if(cycles == 5){
                         currentState = AUTO_STATE.PARKING;
-                        drive.followTrajectorySequenceAsync(park);
+                        //drive.followTrajectorySequenceAsync(park);
                     }
                     else{
                         currentState = AUTO_STATE.TRAVELING_TO_STACK;
-                        drive.followTrajectorySequenceAsync(grabCone);
+                        //drive.followTrajectorySequenceAsync(grabCone);
                     }
                     break;
                 case PARKING:
@@ -153,6 +173,9 @@ public class AutoOpModeFSM extends LinearOpMode {
             telemetry.addData("Pose X",poseEstimate.getX());
             telemetry.addData("Pose Y",poseEstimate.getY());
             telemetry.addData("Pose Heading",poseEstimate.getHeading());
+
+            telemetry.addData("IntakePosition", claw.getPos());
+            telemetry.addData("Position", verticalSlide.getPosition());
 
             telemetry.addData("State", currentState);
             telemetry.update();

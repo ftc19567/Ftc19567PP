@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOuttakePos;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
@@ -23,25 +22,9 @@ import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 
 @TeleOp(name = "TeleOP")
 public class TeleOP extends OpMode {
-    //Mechanisms
-//    boolean aIsPressed;
-//    boolean downIsPressed;
-//    boolean upIsPressed;
-//    boolean bIsPressed;
 
     boolean slowMode;
-    double sense;
-
-    double frontLeftPower;
-    double backLeftPower;
-    double frontRightPower;
-    double backRightPower;
-
-    double robotAngle;
-    double r;
-    double y;
-    double x;
-    double rx;
+    double sense = 0.8;
 
     double verticalSlidePos = 0;
     double intakePos = clawOuttakePos;
@@ -58,21 +41,6 @@ public class TeleOP extends OpMode {
 
     @Override
     public void init() {
-        leftFrontLeftEnc = hardwareMap.get(DcMotor.class, "LFLE");
-        rightFrontBackEnc = hardwareMap.get(DcMotor.class, "RFME");
-        leftBackRightEnc = hardwareMap.get(DcMotor.class, "LBRE");
-        rightBackNoEnc = hardwareMap.get(DcMotor.class, "RBNE");
-
-        leftFrontLeftEnc.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontBackEnc.setDirection(DcMotor.Direction.FORWARD);
-        leftBackRightEnc.setDirection(DcMotor.Direction.FORWARD);
-        rightBackNoEnc.setDirection(DcMotor.Direction.REVERSE );
-
-
-
-        leftBackRightEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontBackEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftFrontLeftEnc.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         claw = new Claw(hardwareMap, telemetry);
         verticalSlide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
@@ -106,10 +74,6 @@ public class TeleOP extends OpMode {
         // Velocity control per wheel is not necessary outside of motion profiled auto
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        x = -gamepad1.left_stick_y * sense;
-        rx = -gamepad1.left_stick_x * (sense * 0.8);
-        y = -gamepad1.right_stick_x * sense;
-
         /*r = Math.hypot(x,y);
         robotAngle = Math.atan2(-y, x) - Math.PI / 4;
         frontLeftPower = (strafeSense*r*Math.sin(robotAngle)) - (rx*turnSense);
@@ -142,21 +106,26 @@ public class TeleOP extends OpMode {
         if(gamepad1.x) verticalSlidePos = slidePos2;
         if(gamepad1.y) verticalSlidePos = slidePos3;
 
-        if(gamepad1.left_trigger > 0) verticalSlidePos =  200;
-
 
 
         verticalSlide.setPosition(verticalSpeed, (int) verticalSlidePos);
         //claw.position(intakePos);
 
-        drive.setWeightedDrivePower(new Pose2d(x, y, rx));
+        drive.setWeightedDrivePower(new Pose2d(-gamepad1.left_stick_y * sense, -gamepad1.left_stick_x * sense, -gamepad1.right_stick_x * sense));
         drive.update();
+        Pose2d poseEstimate = drive.getPoseEstimate();
+
+        // Print pose to telemetry
+        telemetry.addData("x", poseEstimate.getX());
+        telemetry.addData("y", poseEstimate.getY());
+        telemetry.addData("heading", poseEstimate.getHeading());
+
+
+        telemetry.addData("x", poseEstimate.getX());
+        telemetry.addData("y", poseEstimate.getY());
+        telemetry.addData("heading", poseEstimate.getHeading());
 
         telemetry.addData("IntakePosition", claw.getPos());
-        telemetry.addData("x:", imu.getPosition().x);
-        telemetry.addData("y:", imu.getPosition().y);
-        telemetry.addData("z:", imu.getPosition().z);
-        telemetry.addData("imu", imu.getAngularOrientation().firstAngle);
         telemetry.addData("Position", verticalSlide.getPosition());
         telemetry.addData("Servo Port", claw.portNum());
         telemetry.update();
