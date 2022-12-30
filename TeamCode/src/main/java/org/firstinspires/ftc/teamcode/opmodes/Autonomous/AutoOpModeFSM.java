@@ -86,7 +86,7 @@ public class AutoOpModeFSM extends LinearOpMode {
         currentState = AUTO_STATE.TRAVELING_TO_POLE;
 
         TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(0,() -> {
+                .addTemporalMarker(() -> {
                     claw.close();
                 })
                 .addSpatialMarker(new Vector2d(25,-62),() -> {
@@ -95,7 +95,7 @@ public class AutoOpModeFSM extends LinearOpMode {
                 })
                 .splineTo(new Vector2d(35,-15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(18,-12), Math.toRadians(90))
-                .addTemporalMarker(2.7,() -> {
+                .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, 2500);
                     sleep(500);
                     claw.open();

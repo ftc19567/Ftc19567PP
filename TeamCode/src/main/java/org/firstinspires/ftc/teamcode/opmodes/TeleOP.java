@@ -115,11 +115,6 @@ public class TeleOP extends OpMode {
         drive.update();
         Pose2d poseEstimate = drive.getPoseEstimate();
 
-        // Print pose to telemetry
-        telemetry.addData("x", poseEstimate.getX());
-        telemetry.addData("y", poseEstimate.getY());
-        telemetry.addData("heading", poseEstimate.getHeading());
-
 
         telemetry.addData("x", poseEstimate.getX());
         telemetry.addData("y", poseEstimate.getY());
@@ -132,7 +127,4 @@ public class TeleOP extends OpMode {
     }
 
     @Override
-    public void stop() {
-
-    }
 }
