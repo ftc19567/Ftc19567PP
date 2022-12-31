@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
@@ -50,7 +50,7 @@ public class Parking extends LinearOpMode {
 
         Claw claw = new Claw(hardwareMap, telemetry);
         SimpleBotVerticalSlide slide = new SimpleBotVerticalSlide(hardwareMap, telemetry);
-        SampleMecanumDrive chassis = new SampleMecanumDrive(hardwareMap);
+        MecanumDriveCancelable chassis = new MecanumDriveCancelable(hardwareMap);
 
         chassis.setPoseEstimate(starPos);
 

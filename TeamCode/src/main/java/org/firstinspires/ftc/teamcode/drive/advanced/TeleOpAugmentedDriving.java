@@ -60,7 +60,7 @@ public class TeleOpAugmentedDriving extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize custom cancelable SampleMecanumDrive class
+        // Initialize custom cancelable MecanumDriveCancelable class
         // Ensure that the contents are copied over from https://github.com/NoahBres/road-runner-quickstart/blob/advanced-examples/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/advanced/SampleMecanumDriveCancelable.java
         // and https://github.com/NoahBres/road-runner-quickstart/blob/advanced-examples/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/drive/advanced/TrajectorySequenceRunnerCancelable.java
         SampleMecanumDriveCancelable drive = new SampleMecanumDriveCancelable(hardwareMap);

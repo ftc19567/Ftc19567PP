@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
 
 /**
  * This opmode demonstrates how one would implement field centric control using
- * `SampleMecanumDrive.java`. This file is essentially just `TeleOpDrive.java` with the addition of
+ * `MecanumDriveCancelable.java`. This file is essentially just `TeleOpDrive.java` with the addition of
  * field centric control. To achieve field centric control, the only modification one needs is to
  * rotate the input vector by the current heading before passing it into the inverse kinematics.
  * <p>
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class TeleOpFieldCentric extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize SampleMecanumDrive
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        // Initialize MecanumDriveCancelable
+        MecanumDriveCancelable drive = new MecanumDriveCancelable(hardwareMap);
 
         // We want to turn off velocity control for teleop
         // Velocity control per wheel is not necessary outside of motion profiled auto
