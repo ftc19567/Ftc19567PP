@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.util.PIDBasic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,10 @@ public class MecanumDriveCancelable extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 1);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);
 
+    public static double headingKP = 0;
+    public static double headingKI = 0;
+    public static double headingKD = 0;
+
     public static double LATERAL_MULTIPLIER = 1.41494602243;
 
     public static double VX_WEIGHT = 1;
@@ -68,12 +73,15 @@ public class MecanumDriveCancelable extends MecanumDrive {
     private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
     private TrajectoryFollower follower;
+    private PIDBasic HeadingPIDTeleOp = new PIDBasic(headingKP,headingKI,headingKD);
 
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
+
+    private double referenceAngle = 0;
 
     public MecanumDriveCancelable(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -257,6 +265,26 @@ public class MecanumDriveCancelable extends MecanumDrive {
             double denom = VX_WEIGHT * Math.abs(drivePower.getX())
                     + VY_WEIGHT * Math.abs(drivePower.getY())
                     + OMEGA_WEIGHT * Math.abs(drivePower.getHeading());
+
+            vel = new Pose2d(
+                    VX_WEIGHT * drivePower.getX(),
+                    VY_WEIGHT * drivePower.getY(),
+                    OMEGA_WEIGHT * drivePower.getHeading()
+            ).div(denom);
+        }
+
+        setDrivePower(vel);
+    }
+
+    public void PIDDrive(Pose2d drivePower, double headingEstimate) {
+        Pose2d vel = drivePower;
+
+        if (Math.abs(drivePower.getX()) + Math.abs(drivePower.getY())
+                + Math.abs(drivePower.getHeading()) > 1) {
+            // re-normalize the powers according to the weights
+            double denom = VX_WEIGHT * Math.abs(drivePower.getX())
+                    + VY_WEIGHT * Math.abs(drivePower.getY())
+                    + OMEGA_WEIGHT * HeadingPIDTeleOp.calculate(Math.abs(drivePower.getHeading()), Math.abs(headingEstimate));
 
             vel = new Pose2d(
                     VX_WEIGHT * drivePower.getX(),
