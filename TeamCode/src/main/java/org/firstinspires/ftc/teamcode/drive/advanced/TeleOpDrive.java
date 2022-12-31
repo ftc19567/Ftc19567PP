@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
 
 /**
- * This opmode demonstrates how to create a teleop using just the SampleMecanumDrive class without
+ * This opmode demonstrates how to create a teleop using just the MecanumDriveCancelable class without
  * the need for an external robot class. This will allow you to do some cool things like
  * incorporating live trajectory following in your teleop. Check out TeleOpAgumentedDriving.java for
  * an example of such behavior.
@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class TeleOpDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize SampleMecanumDrive
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        // Initialize MecanumDriveCancelable
+        MecanumDriveCancelable drive = new MecanumDriveCancelable(hardwareMap);
 
         // We want to turn off velocity control for teleop
         // Velocity control per wheel is not necessary outside of motion profiled auto

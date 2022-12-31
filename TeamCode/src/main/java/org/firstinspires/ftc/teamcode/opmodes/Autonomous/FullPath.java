@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 public class FullPath extends OpMode {
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    MecanumDriveCancelable drive = new MecanumDriveCancelable(hardwareMap);
     TrajectorySequence full;
     @Override
     public void init() {

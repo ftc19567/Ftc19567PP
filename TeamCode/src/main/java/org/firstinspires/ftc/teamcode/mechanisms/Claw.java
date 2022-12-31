@@ -19,7 +19,6 @@ public class Claw implements MechanismTemplate{
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         clawServo = hwMap.get(Servo.class, "clawServo");
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.scaleRange(0.5,1);
     }
 
     public void position(double pos){

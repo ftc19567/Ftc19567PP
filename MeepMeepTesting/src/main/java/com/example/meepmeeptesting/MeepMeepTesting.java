@@ -21,44 +21,35 @@ public class MeepMeepTesting {
                 .setConstraints(73.17330064499293, 73.17330064499293, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(32.5, -62, Math.toRadians(90)))
-                                .addTemporalMarker(0,() -> {
+                                .addTemporalMarker(() -> {
                                     //claw.close();
                                 })
                                 .addSpatialMarker(new Vector2d(25,-62),() -> {
-                                    //verticalSlide.setPosition(verticalSpeed, 3130);
+                                    //verticalSlide.setPosition(verticalSpeed, 1080);
 
                                 })
-                                .splineTo(new Vector2d(35,-15), Math.toRadians(90))
-                                .splineToConstantHeading(new Vector2d(18,-12), Math.toRadians(90))
-                                .addTemporalMarker(2.7,() -> {
-                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition()-400);
+                                .splineTo(new Vector2d(28,-7), Math.toRadians(131))
+                                .waitSeconds(0.4)
+                                .addTemporalMarker(() -> {
+                                    //verticalSlide.setPosition(verticalSpeed, 890);
+                                    //sleep(100);
                                     //claw.open();
                                 })
-                                /*.addTemporalMarker(0,() -> {
-                                    //claw.close();
-                                })
-                                .addSpatialMarker(new Vector2d(25,-62),() -> {
-                                    //verticalSlide.setPosition(verticalSpeed, 3130);
-
-                                })
-                                .splineTo(new Vector2d(35,-15), Math.toRadians(90))
-                                .splineToConstantHeading(new Vector2d(23,-12), Math.toRadians(90))
-                                //.splineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)), Math.toRadians(0))
-                                .addSpatialMarker(new Vector2d(23.5,0), () -> {
-                                    //verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition-400);
-                                    //claw.open();
-                                })
-                                .waitSeconds(0.5)
                                 .addSpatialMarker(new Vector2d(7, -21), () -> {
-                                    //verticalSlide.setPosition(verticalSpeed,700);
+                                    //verticalSlide.setPosition(verticalSpeed,190);
                                 })
-                                .lineToLinearHeading(new Pose2d(59.5,-12, Math.toRadians(0)))
+                                .setReversed(true)
+                                .lineToLinearHeading(new Pose2d(32,-11, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(59,-15, Math.toRadians(0)))
+                                //.splineToLinearHeading(new Pose2d(59,-15, Math.toRadians(0)), Math.toRadians(180))
+                                //.lineToLinearHeading(new Pose2d(59,-15, Math.toRadians(0)))
                                 .addDisplacementMarker(() ->{
                                     //claw.close();
                                     //sleep(100);
                                     //verticalSlide.setPosition(verticalSpeed, 3130);
                                 })
                                 .waitSeconds(0.5)//go to pole
+                                /*
                                 .setReversed(true)
                                 .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
                                 .addDisplacementMarker(() -> {

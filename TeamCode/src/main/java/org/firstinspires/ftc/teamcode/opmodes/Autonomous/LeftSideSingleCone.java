@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.bottomLeft;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.left;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagFirstId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagSecondId;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.tagThirdId;
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
 import org.firstinspires.ftc.teamcode.mechanisms.Claw;
 import org.firstinspires.ftc.teamcode.mechanisms.SimpleBotVerticalSlide;
 import org.firstinspires.ftc.teamcode.pipelines.AprilTagPipeline;
@@ -53,13 +53,13 @@ public class LeftSideSingleCone extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
-    Pose2d startPose = bottomLeft;
+    Pose2d startPose = left;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        MecanumDriveCancelable drive = new MecanumDriveCancelable(hardwareMap);
         drive.setPoseEstimate(startPose);
 
         claw = new Claw(hardwareMap, telemetry);
