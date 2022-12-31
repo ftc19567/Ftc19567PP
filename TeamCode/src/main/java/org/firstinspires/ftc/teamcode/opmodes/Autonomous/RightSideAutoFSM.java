@@ -23,8 +23,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "official")
-public class AutoOpModeFSM extends LinearOpMode {
+@Autonomous(name = "Right Side", group = "official")
+public class RightSideAutoFSM extends LinearOpMode {
 
     private TrajectorySequence complete;
 

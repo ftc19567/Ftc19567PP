@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOuttakePos;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
@@ -69,10 +70,8 @@ public class TeleOP extends OpMode {
     public void loop() {
         // Initialize MecanumDriveCancelable
         MecanumDriveCancelable drive = new MecanumDriveCancelable(hardwareMap);
-
-        // We want to turn off velocity control for teleop
-        // Velocity control per wheel is not necessary outside of motion profiled auto
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        drive.setPoseEstimate(new Pose2d(0,0,0));
 
         /*r = Math.hypot(x,y);
         robotAngle = Math.atan2(-y, x) - Math.PI / 4;
@@ -95,7 +94,11 @@ public class TeleOP extends OpMode {
         //if(gamepad1.dpad_down) intakePos = clawIntakePos;
         //else if(gamepad1.dpad_up) intakePos = clawOuttakePos;
         if(gamepad1.right_trigger > 0) claw.close();
-        if(gamepad1.right_bumper) claw.open();
+        if(gamepad1.right_bumper) {
+            verticalSlidePos = verticalSlide.getPosition() - 120;
+            sleep(100);
+            claw.open();
+        }
 
 
         if(gamepad1.dpad_up)verticalSlidePos = Range.clip(verticalSlidePos + 15,0,6000);
@@ -111,14 +114,17 @@ public class TeleOP extends OpMode {
         verticalSlide.setPosition(verticalSpeed, (int) verticalSlidePos);
         //claw.position(intakePos);
 
-        drive.setWeightedDrivePower(new Pose2d(-gamepad1.left_stick_y * sense, -gamepad1.left_stick_x * sense, -gamepad1.right_stick_x * sense));
-        drive.update();
         Pose2d poseEstimate = drive.getPoseEstimate();
+        drive.PIDDrive(new Pose2d(-gamepad1.left_stick_y * sense, -gamepad1.left_stick_x * sense, -gamepad1.right_stick_x * sense), poseEstimate.getHeading());
+        poseEstimate = drive.getPoseEstimate();
+        drive.update();
+
 
 
         telemetry.addData("x", poseEstimate.getX());
         telemetry.addData("y", poseEstimate.getY());
         telemetry.addData("heading", poseEstimate.getHeading());
+        telemetry.addData("given heading",-gamepad1.right_stick_x* sense);
 
         telemetry.addData("IntakePosition", claw.getPos());
         telemetry.addData("Position", verticalSlide.getPosition());
