@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -18,7 +19,7 @@ public class SimpleBotVerticalSlide implements MechanismTemplate{
     public void setMode(HardwareMap hwMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         verticalMotor = hwMap.get(DcMotor.class, "verticalSlide");
-        verticalMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        verticalMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         verticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         verticalMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -27,7 +28,7 @@ public class SimpleBotVerticalSlide implements MechanismTemplate{
 
     public void setPosition(double pow, int pos){
         verticalMotor.setPower(pow);
-        verticalMotor.setTargetPosition(pos);
+        verticalMotor.setTargetPosition(Range.clip(pos,0,1600));
         verticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

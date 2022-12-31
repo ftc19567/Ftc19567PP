@@ -102,13 +102,7 @@ public class AutoOpModeFSM extends LinearOpMode {
         while(!opModeIsActive()) {
             claw.close();
             telemetry.addData("Tag",location); //Inform the driver of the detected location
-            telemetry.update();
-        }
 
-        if(!opModeIsActive() || isStopRequested()) return;
-
-        while (!isStarted() && !isStopRequested())
-        {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if(currentDetections.size() != 0)
@@ -166,44 +160,7 @@ public class AutoOpModeFSM extends LinearOpMode {
             sleep(20);
         }
 
-        /* Actually do something useful */
-        if(tagOfInterest == null){
-            //default trajectory here if preferred
-            location = LOCATION.SECOND;
-        }else if(tagOfInterest.id == LEFT){
-            //left trajectory
-            location = LOCATION.FIRST;
-        }else if(tagOfInterest.id == MIDDLE){
-            //middle trajectory
-            location = LOCATION.SECOND;
-        }else{
-            //right trajectory
-            location = LOCATION.THIRD;
-        }
-
-        //TODO: Figure out positions
-        switch (location){
-            case FIRST:
-                parkX = 0;
-                parkY = 0;
-                telemetry.addData("Parking Position","First Position");
-                telemetry.update();
-                break;
-            case SECOND:
-                parkX = 0;
-                parkY = 0;
-                telemetry.addData("Parking Position","Second Position");
-                telemetry.update();
-                break;
-            case THIRD:
-                parkX = 0;
-                parkY = 0;
-                telemetry.addData("Parking Position","Third Position");
-                telemetry.update();
-                break;
-        }
-
-        currentState = AUTO_STATE.TRAVELING_TO_POLE;
+        if(!opModeIsActive() || isStopRequested()) return;
 
         TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(() -> {
@@ -249,6 +206,47 @@ public class AutoOpModeFSM extends LinearOpMode {
         /*TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
                         .build();
          */
+        waitForStart();
+
+        /* Actually do something useful */
+        if(tagOfInterest == null){
+            //default trajectory here if preferred
+            location = LOCATION.SECOND;
+        }else if(tagOfInterest.id == LEFT){
+            //left trajectory
+            location = LOCATION.FIRST;
+        }else if(tagOfInterest.id == MIDDLE){
+            //middle trajectory
+            location = LOCATION.SECOND;
+        }else{
+            //right trajectory
+            location = LOCATION.THIRD;
+        }
+
+        //TODO: Figure out positions
+        switch (location){
+            case FIRST:
+                parkX = 0;
+                parkY = 0;
+                telemetry.addData("Parking Position","First Position");
+                telemetry.update();
+                break;
+            case SECOND:
+                parkX = 0;
+                parkY = 0;
+                telemetry.addData("Parking Position","Second Position");
+                telemetry.update();
+                break;
+            case THIRD:
+                parkX = 0;
+                parkY = 0;
+                telemetry.addData("Parking Position","Third Position");
+                telemetry.update();
+                break;
+        }
+
+        currentState = AUTO_STATE.TRAVELING_TO_POLE;
+
 
         drive.followTrajectorySequenceAsync(preloadSeq);
 
@@ -258,7 +256,6 @@ public class AutoOpModeFSM extends LinearOpMode {
                 case TRAVELING_TO_DEFAULT:
                     if(!drive.isBusy()){
                         telemetry.addData("State Machine","Preload Travel");
-                        telemetry.update();
                         currentState = AUTO_STATE.DELIVERING_CONE;
                     }
                     break;
@@ -266,7 +263,6 @@ public class AutoOpModeFSM extends LinearOpMode {
                     if(!drive.isBusy()){
                         cycles++;
                         telemetry.addData("State Machine","Traveling to Stack");
-                        telemetry.update();
                         currentState = AUTO_STATE.COLLECTING_CONE;
                         drive.followTrajectorySequenceAsync(deliverCone);
                     }
@@ -274,7 +270,6 @@ public class AutoOpModeFSM extends LinearOpMode {
                 case COLLECTING_CONE:
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Collecting Cone");
-                    telemetry.update();
                     currentState = AUTO_STATE.TRAVELING_TO_POLE;
                     break;
                 case TRAVELING_TO_POLE:
@@ -285,7 +280,6 @@ public class AutoOpModeFSM extends LinearOpMode {
                 case DELIVERING_CONE:
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Delivering cone");
-                    telemetry.update();
                     if(!drive.isBusy()) {
                         if (cycles >= 1) {
                             currentState = AUTO_STATE.PARKING;
@@ -298,7 +292,6 @@ public class AutoOpModeFSM extends LinearOpMode {
                     break;
                 case PARKING:
                         telemetry.addData("State Machine","Park");
-                        telemetry.update();
                         currentState = AUTO_STATE.COMPLETE;
                         break master;
                 default:
