@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.MecanumDriveCancelable;
@@ -64,6 +65,7 @@ public class RightSideAutoFSM extends LinearOpMode {
 
     int cycles = 0;
     int stackHeight = 183;
+    int headingCorrection = 90;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -172,7 +174,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
                 //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
                 //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(28,-11,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(26,-11,Math.toRadians(90)))
                 .waitSeconds(0.4)
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, 860);
@@ -182,28 +184,26 @@ public class RightSideAutoFSM extends LinearOpMode {
                 .build();
         TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
                 .addDisplacementMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed,stackHeight);
-                    stackHeight -= 10;
+                    verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,200));
+                    stackHeight -= 37;
                 })
                 .lineToLinearHeading(new Pose2d(32,-14.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(64,-13, Math.toRadians(0)))
-                .waitSeconds(0.2)
-                .addTemporalMarker(() -> {
-                    claw.close();
-                })
+                .lineToLinearHeading(new Pose2d(63.4,-12.4, Math.toRadians(0)))
                 .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                 .addDisplacementMarker(() -> {
+                    claw.close();
+                    sleep(100);
                     verticalSlide.setPosition(verticalSpeed, 1080);
                 })
-                .lineToLinearHeading(new Pose2d(35,-13.5, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(23,-12, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(33.6,-14.8, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(22.6,-11.4, Math.toRadians(headingCorrection)))
                 .addTemporalMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, 890);
+                    headingCorrection += 1.6;
+                    verticalSlide.setPosition(verticalSpeed, 860);
                     sleep(100);
                     claw.open();
                 })
-                .waitSeconds(5)
                 .build();
         /*TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
                         .build();
@@ -283,7 +283,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Delivering cone");
                     if(!drive.isBusy()) {
-                        if (cycles >= 2) {
+                        if (cycles >= 5) {
                             currentState = AUTO_STATE.PARKING;
                             //drive.followTrajectorySequenceAsync(park);
                         } else {
