@@ -10,8 +10,9 @@ public class UtilConstants {
     static public final double SecondArmFlipPosition = 0;
     static public final double ThirdArmFlipPosition = 0;
 
-    static public final double strafeSense = 0.6;
+    static public final double sense = 0.6;
     static public final double turnSense = 0.6;
+    static public final double slowModeSense = 0.6;
 
     public static final int tagFirstId = 0;
     public static final int tagSecondId = 1;
@@ -20,7 +21,7 @@ public class UtilConstants {
     public static final double clawIntakePos = 0.4;
     public static final double clawOuttakePos = 1;
 
-    public static final int slidePos1 = 1080;
+    public static final int slidePos1 = 1060;
     public static final int slidePos2 = 700;
     public static final int slidePos3 = 400;
 

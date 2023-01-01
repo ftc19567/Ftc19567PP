@@ -63,7 +63,7 @@ public class RightSideAutoFSM extends LinearOpMode {
     private LOCATION location = LOCATION.SECOND;
 
     int cycles = 0;
-    int stackHeight = 178;
+    int stackHeight = 180;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -165,15 +165,17 @@ public class RightSideAutoFSM extends LinearOpMode {
         TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(() -> {
                     claw.close();
-                })
-                .addSpatialMarker(new Vector2d(25,-62),() -> {
                     verticalSlide.setPosition(verticalSpeed, 1080);
-
                 })
-                .splineTo(new Vector2d(30,-7), Math.toRadians(131))
+                .lineToLinearHeading(new Pose2d(13,-58,Math.toRadians(90)))
+                //.splineToConstantHeading(new Vector2d(13,-58),Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
+                //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
+                //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(28,-11,Math.toRadians(90)))
                 .waitSeconds(0.4)
                 .addTemporalMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, 890);
+                    verticalSlide.setPosition(verticalSpeed, 860);
                     sleep(100);
                     claw.open();
                 })
@@ -183,8 +185,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                     verticalSlide.setPosition(verticalSpeed,stackHeight);
                     stackHeight -= 30;
                 })
-                .lineToLinearHeading(new Pose2d(32,-13, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(62,-12.7, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(32,-13.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(62,-13, Math.toRadians(0)))
                 .waitSeconds(0.5)
                 .addTemporalMarker(() -> {
                     claw.close();
@@ -194,8 +196,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, 1080);
                 })
-                .lineToLinearHeading(new Pose2d(35,-12.7, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(21,-11, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(35,-13.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(23,-12, Math.toRadians(90)))
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, 890);
                     sleep(100);

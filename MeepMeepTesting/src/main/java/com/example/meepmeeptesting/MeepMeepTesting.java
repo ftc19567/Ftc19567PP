@@ -21,7 +21,11 @@ public class MeepMeepTesting {
                 .setConstraints(73.17330064499293, 73.17330064499293, Math.toRadians(180), Math.toRadians(180), 13)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(32.5, -62, Math.toRadians(90)))
-                                .addTemporalMarker(() -> {
+                                //.splineToConstantHeading(new Vector2d(10,-58),Math.toRadians(90))
+                                .splineToConstantHeading(new Vector2d(13,-58),Math.toRadians(90))
+                                .splineTo(new Vector2d(13,-12), Math.toRadians(90))
+                                .splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
+                                /*.addTemporalMarker(() -> {
                                     //claw.close();
                                 })
                                 .addSpatialMarker(new Vector2d(25,-62),() -> {
@@ -49,7 +53,7 @@ public class MeepMeepTesting {
                                     //verticalSlide.setPosition(verticalSpeed, 3130);
                                 })
                                 .waitSeconds(0.5)//go to pole
-                                /*
+
                                 .setReversed(true)
                                 .lineToLinearHeading(new Pose2d(23,-11, Math.toRadians(90)))
                                 .addDisplacementMarker(() -> {

@@ -25,7 +25,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "official")
+@Autonomous(name = "Parking", group = "official")
 public class ParkOnly extends LinearOpMode
 {
     private LOCATION location = LOCATION.FIRST;
