@@ -63,7 +63,7 @@ public class RightSideAutoFSM extends LinearOpMode {
     private LOCATION location = LOCATION.SECOND;
 
     int cycles = 0;
-    int stackHeight = 180;
+    int stackHeight = 183;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -183,11 +183,11 @@ public class RightSideAutoFSM extends LinearOpMode {
         TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
                 .addDisplacementMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed,stackHeight);
-                    stackHeight -= 30;
+                    stackHeight -= 10;
                 })
-                .lineToLinearHeading(new Pose2d(32,-13.5, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(62,-13, Math.toRadians(0)))
-                .waitSeconds(0.5)
+                .lineToLinearHeading(new Pose2d(32,-14.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(64,-13, Math.toRadians(0)))
+                .waitSeconds(0.2)
                 .addTemporalMarker(() -> {
                     claw.close();
                 })
@@ -283,7 +283,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Delivering cone");
                     if(!drive.isBusy()) {
-                        if (cycles >= 1) {
+                        if (cycles >= 2) {
                             currentState = AUTO_STATE.PARKING;
                             //drive.followTrajectorySequenceAsync(park);
                         } else {
@@ -303,7 +303,6 @@ public class RightSideAutoFSM extends LinearOpMode {
 
 
             Pose2d poseEstimate = drive.getPoseEstimate();
-
             drive.update();
 
             telemetry.addData("Pose X",poseEstimate.getX());
