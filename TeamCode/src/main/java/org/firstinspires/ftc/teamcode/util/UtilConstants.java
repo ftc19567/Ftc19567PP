@@ -18,13 +18,13 @@ public class UtilConstants {
     public static final int tagSecondId = 1;
     public static final int tagThirdId = 2;
 
-    public static final double clawIntakePos = 0.4;
-    public static final double clawOuttakePos = 1;
+    public static final double clawIntakePos = 0.1;
+    public static final double clawOuttakePos = 0.5;
 
-    public static final int slidePos1 = 1060;
-    public static final int slidePos2 = 700;
-    public static final int slidePos3 = 400;
-
+    public static final int slidePos1 = 2835;
+    public static final int slidePos2 = 2040;
+    public static final int slidePos3 = 1215;
+//405, 300,
 
     public static LOCATION location= LOCATION.FIRST;
     public static int tag = 0;

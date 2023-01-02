@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.right;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -64,8 +65,7 @@ public class RightSideAutoFSM extends LinearOpMode {
     private LOCATION location = LOCATION.SECOND;
 
     int cycles = 0;
-    int stackHeight = 183;
-    int headingCorrection = 90;
+    int stackHeight = 405;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -167,17 +167,17 @@ public class RightSideAutoFSM extends LinearOpMode {
         TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
                 .addTemporalMarker(() -> {
                     claw.close();
-                    verticalSlide.setPosition(verticalSpeed, 1080);
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
                 .lineToLinearHeading(new Pose2d(13,-58,Math.toRadians(90)))
                 //.splineToConstantHeading(new Vector2d(13,-58),Math.toRadians(90))
                 .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
                 //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
                 //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(26,-11,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(26,-10,Math.toRadians(90)))
                 .waitSeconds(0.4)
                 .addTemporalMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, 860);
+                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
                     sleep(100);
                     claw.open();
                 })
@@ -185,22 +185,21 @@ public class RightSideAutoFSM extends LinearOpMode {
         TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
                 .addDisplacementMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,200));
-                    stackHeight -= 37;
+                    stackHeight -= 100;
                 })
-                .lineToLinearHeading(new Pose2d(32,-14.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(32,-14, Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(63.4,-12.4, Math.toRadians(0)))
                 .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                 .addDisplacementMarker(() -> {
                     claw.close();
                     sleep(100);
-                    verticalSlide.setPosition(verticalSpeed, 1080);
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
                 .lineToLinearHeading(new Pose2d(33.6,-14.8, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(22.6,-11.4, Math.toRadians(headingCorrection)))
+                .lineToLinearHeading(new Pose2d(22.6,-11.4, Math.toRadians(90)))
                 .addTemporalMarker(() -> {
-                    headingCorrection += 1.6;
-                    verticalSlide.setPosition(verticalSpeed, 860);
+                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
                     sleep(100);
                     claw.open();
                 })
