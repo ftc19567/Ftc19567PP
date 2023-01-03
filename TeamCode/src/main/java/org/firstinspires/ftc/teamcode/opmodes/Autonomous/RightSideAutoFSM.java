@@ -65,7 +65,7 @@ public class RightSideAutoFSM extends LinearOpMode {
     private LOCATION location = LOCATION.SECOND;
 
     int cycles = 0;
-    int stackHeight = 405;
+    int stackHeight = 280;
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -130,10 +130,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                 {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
-                        telemetry.addLine("(The tag has never been seen)");
-                    }
+                    if(tagOfInterest == null) telemetry.addLine("(The tag has never been seen)");
                     else
                     {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
@@ -164,49 +161,7 @@ public class RightSideAutoFSM extends LinearOpMode {
 
         if(!opModeIsActive() || isStopRequested()) return;
 
-        TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(() -> {
-                    claw.close();
-                    verticalSlide.setPosition(verticalSpeed, slidePos1);
-                })
-                .lineToLinearHeading(new Pose2d(13,-58,Math.toRadians(90)))
-                //.splineToConstantHeading(new Vector2d(13,-58),Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
-                //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
-                //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(26,-10,Math.toRadians(90)))
-                .waitSeconds(0.4)
-                .addTemporalMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
-                    sleep(100);
-                    claw.open();
-                })
-                .build();
-        TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
-                .addDisplacementMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,200));
-                    stackHeight -= 100;
-                })
-                .lineToLinearHeading(new Pose2d(32,-14, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(63.4,-12.4, Math.toRadians(0)))
-                .build();
-        TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
-                .addDisplacementMarker(() -> {
-                    claw.close();
-                    sleep(100);
-                    verticalSlide.setPosition(verticalSpeed, slidePos1);
-                })
-                .lineToLinearHeading(new Pose2d(33.6,-14.8, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(22.6,-11.4, Math.toRadians(90)))
-                .addTemporalMarker(() -> {
-                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
-                    sleep(100);
-                    claw.open();
-                })
-                .build();
-        /*TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
-                        .build();
-         */
+
         waitForStart();
 
         /* Actually do something useful */
@@ -227,24 +182,68 @@ public class RightSideAutoFSM extends LinearOpMode {
         //TODO: Figure out positions
         switch (location){
             case FIRST:
-                parkX = 0;
-                parkY = 0;
+                parkX = 10;
+                parkY = -12;
                 telemetry.addData("Parking Position","First Position");
                 telemetry.update();
                 break;
             case SECOND:
-                parkX = 0;
-                parkY = 0;
+                parkX = 35;
+                parkY = -11;
                 telemetry.addData("Parking Position","Second Position");
                 telemetry.update();
                 break;
             case THIRD:
-                parkX = 0;
-                parkY = 0;
+                parkX = 59;
+                parkY = -12;
                 telemetry.addData("Parking Position","Third Position");
                 telemetry.update();
                 break;
         }
+
+        TrajectorySequence preloadSeq = drive.trajectorySequenceBuilder(startPose)
+                .addTemporalMarker(() -> {
+                    claw.close();
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+                })
+                .lineToLinearHeading(new Pose2d(13,-58,Math.toRadians(90)))
+                //.splineToConstantHeading(new Vector2d(13,-58),Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
+                //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
+                //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(27.5,-8.5,Math.toRadians(90)))
+                .addTemporalMarker(() -> {
+                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
+                    sleep(50);
+                    claw.open();
+                })
+                .build();
+        TrajectorySequence grabCone = drive.trajectorySequenceBuilder(preloadSeq.end())
+                .addDisplacementMarker(() -> {
+                    verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,500));
+                    stackHeight -= 80;
+                })
+                .lineToLinearHeading(new Pose2d(32,-14, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(63.5,-12.5, Math.toRadians(0)))
+                .build();
+        TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
+                .addDisplacementMarker(() -> {
+                    claw.close();
+                    sleep(60);
+                    verticalSlide.setPosition(verticalSpeed, slidePos1);
+                })
+                .lineToLinearHeading(new Pose2d(28,-16, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(21.3,-10.5, Math.toRadians(98)))
+                .waitSeconds(0.4)
+                .addTemporalMarker(() -> {
+                    verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
+                    sleep(50);
+                    claw.open();
+                })
+                .build();
+        TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
+                .lineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(90)))
+                .build();
 
         currentState = AUTO_STATE.TRAVELING_TO_POLE;
 
@@ -282,12 +281,12 @@ public class RightSideAutoFSM extends LinearOpMode {
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Delivering cone");
                     if(!drive.isBusy()) {
-                        if (cycles >= 5) {
-                            currentState = AUTO_STATE.PARKING;
-                            //drive.followTrajectorySequenceAsync(park);
-                        } else {
+                        if (cycles <= 4) {
                             currentState = AUTO_STATE.TRAVELING_TO_STACK;
                             drive.followTrajectorySequenceAsync(grabCone);
+                        } else {
+                            currentState = AUTO_STATE.PARKING;
+                            drive.followTrajectorySequenceAsync(park);
                         }
                     }
                     break;
@@ -303,6 +302,8 @@ public class RightSideAutoFSM extends LinearOpMode {
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             drive.update();
+
+            telemetry.addData("Cycle" ,  cycles);
 
             telemetry.addData("Pose X",poseEstimate.getX());
             telemetry.addData("Pose Y",poseEstimate.getY());
