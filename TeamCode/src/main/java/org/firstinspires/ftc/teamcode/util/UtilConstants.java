@@ -4,15 +4,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 public class UtilConstants {
     static public final double verticalSpeed = 1;
-    static public final double HorizontalSpeed = 0.8;
 
     static public final double FirstArmFlipPosition = 0;
     static public final double SecondArmFlipPosition = 0;
     static public final double ThirdArmFlipPosition = 0;
 
-    static public final double sense = 0.6;
-    static public final double turnSense = 0.6;
-    static public final double slowModeSense = 0.6;
+    static public final double sense = 0.55;
+    static public final double slowModeSense = 0.3;
 
     public static final int tagFirstId = 0;
     public static final int tagSecondId = 1;
