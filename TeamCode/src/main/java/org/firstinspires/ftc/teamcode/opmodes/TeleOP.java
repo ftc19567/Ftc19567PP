@@ -93,12 +93,9 @@ public class TeleOP extends OpMode {
         if(slowMode) sense = slowModeSense;
         else sense = UtilConstants.sense;
 
-        //Intake
-        //if(gamepad1.dpad_down) intakePos = clawIntakePos;
-        //else if(gamepad1.dpad_up) intakePos = clawOuttakePos;
         if(gamepad1.right_trigger > 0) claw.close();
         if(gamepad1.right_bumper) {
-            verticalSlidePos = verticalSlide.getPosition() - 200;
+            verticalSlidePos = verticalSlide.getPosition() - 250;
             sleep(100);
             claw.open();
         }
@@ -118,7 +115,7 @@ public class TeleOP extends OpMode {
         //claw.position(intakePos);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
-        drive.PIDDrive(new Pose2d(-gamepad1.left_stick_y * sense, -gamepad1.left_stick_x * sense, -gamepad1.right_stick_x * sense), poseEstimate.getHeading());
+        drive.PIDDrive(new Pose2d(-gamepad1.left_stick_y * sense, -gamepad1.left_stick_x * sense, -gamepad1.right_stick_x * sense * 0.95), poseEstimate.getHeading());
         poseEstimate = drive.getPoseEstimate();
         drive.update();
 

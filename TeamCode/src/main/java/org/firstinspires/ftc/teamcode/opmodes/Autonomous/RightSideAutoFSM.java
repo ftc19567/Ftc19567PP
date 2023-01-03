@@ -107,54 +107,39 @@ public class RightSideAutoFSM extends LinearOpMode {
 
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0)
-            {
+            if(currentDetections.size() != 0) {
                 boolean tagFound = false;
-
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
-                    {
+                for(AprilTagDetection tag : currentDetections) {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
                     }
                 }
 
-                if(tagFound)
-                {
+                if(tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
                     if(tagOfInterest == null) telemetry.addLine("(The tag has never been seen)");
-                    else
-                    {
+                    else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
-                    telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
+                if(tagOfInterest == null) telemetry.addLine("(The tag has never been seen)");
+                else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     telemetry.addLine(String.format("\nDetected tag ID=%d", tagOfInterest.id));
                 }
 
             }
-
             telemetry.update();
             sleep(20);
         }
@@ -164,20 +149,10 @@ public class RightSideAutoFSM extends LinearOpMode {
 
         waitForStart();
 
-        /* Actually do something useful */
-        if(tagOfInterest == null){
-            //default trajectory here if preferred
-            location = LOCATION.SECOND;
-        }else if(tagOfInterest.id == LEFT){
-            //left trajectory
-            location = LOCATION.FIRST;
-        }else if(tagOfInterest.id == MIDDLE){
-            //middle trajectory
-            location = LOCATION.SECOND;
-        }else{
-            //right trajectory
-            location = LOCATION.THIRD;
-        }
+        if(tagOfInterest == null) location = LOCATION.SECOND;
+        else if(tagOfInterest.id == LEFT) location = LOCATION.FIRST;
+        else if(tagOfInterest.id == MIDDLE) location = LOCATION.SECOND;
+        else location = LOCATION.THIRD;
 
         //TODO: Figure out positions
         switch (location){
@@ -189,7 +164,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                 break;
             case SECOND:
                 parkX = 35;
-                parkY = -11;
+                parkY = -12;
                 telemetry.addData("Parking Position","Second Position");
                 telemetry.update();
                 break;
@@ -293,7 +268,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                 case PARKING:
                         telemetry.addData("State Machine","Park");
                         currentState = AUTO_STATE.COMPLETE;
-                        break master;
+                case COMPLETE:
+                    if(!drive.isBusy()) break master;
                 default:
                     currentState = AUTO_STATE.TRAVELING_TO_DEFAULT;
 
