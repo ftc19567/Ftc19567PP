@@ -28,7 +28,7 @@ public class SimpleBotVerticalSlide implements MechanismTemplate{
 
     public void setPosition(double pow, int pos){
         verticalMotor.setPower(pow);
-        verticalMotor.setTargetPosition(Range.clip(pos,0,4000));
+        verticalMotor.setTargetPosition(Range.clip(pos,0,2000));
         verticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
