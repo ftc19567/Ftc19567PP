@@ -28,8 +28,6 @@ import java.util.ArrayList;
 @Autonomous(name = "Right Side", group = "official")
 public class RightSideAutoFSM extends LinearOpMode {
 
-    private TrajectorySequence complete;
-
     OpenCvCamera camera;
     AprilTagPipeline aprilTagDetectionPipeline;
 
@@ -154,10 +152,9 @@ public class RightSideAutoFSM extends LinearOpMode {
         else if(tagOfInterest.id == MIDDLE) location = LOCATION.SECOND;
         else location = LOCATION.THIRD;
 
-        //TODO: Figure out positions
         switch (location){
             case FIRST:
-                parkX = 10;
+                parkX = 17;
                 parkY = -12;
                 telemetry.addData("Parking Position","First Position");
                 telemetry.update();
@@ -186,7 +183,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
                 //.splineTo(new Vector2d(13,-12), Math.toRadians(90))
                 //.splineToLinearHeading(new Pose2d(26,-11, Math.toRadians(90)), Math.toRadians(0))
-                .lineToLinearHeading(new Pose2d(27.5,-8.5,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(27.2,-10,Math.toRadians(90)))
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
                     sleep(50);
@@ -199,7 +196,7 @@ public class RightSideAutoFSM extends LinearOpMode {
                     stackHeight -= 80;
                 })
                 .lineToLinearHeading(new Pose2d(32,-14, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(63.5,-12.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(62.2,-11.3, Math.toRadians(0)))
                 .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                 .addDisplacementMarker(() -> {
@@ -207,8 +204,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                     sleep(60);
                     verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
-                .lineToLinearHeading(new Pose2d(28,-16, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(21.3,-10.5, Math.toRadians(98)))
+                .lineToLinearHeading(new Pose2d(30,-15, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(22.7,-12.3, Math.toRadians(99.4)))
                 .waitSeconds(0.4)
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
@@ -217,7 +214,11 @@ public class RightSideAutoFSM extends LinearOpMode {
                 })
                 .build();
         TrajectorySequence park = drive.trajectorySequenceBuilder(deliverCone.end())
+                .addTemporalMarker(() -> {
+                    verticalSlide.setPosition(verticalSpeed, 0);
+                })
                 .lineToLinearHeading(new Pose2d(parkX, parkY, Math.toRadians(90)))
+                //.lineToLinearHeading(new Pose2d(59, -12, Math.toRadians(90)))
                 .build();
 
         currentState = AUTO_STATE.TRAVELING_TO_POLE;
@@ -256,17 +257,18 @@ public class RightSideAutoFSM extends LinearOpMode {
                     //TODO: add time out for drop
                     telemetry.addData("State Machine","Delivering cone");
                     if(!drive.isBusy()) {
-                        if (cycles <= 4) {
+                        if (cycles < 5) {
                             currentState = AUTO_STATE.TRAVELING_TO_STACK;
                             drive.followTrajectorySequenceAsync(grabCone);
                         } else {
                             currentState = AUTO_STATE.PARKING;
-                            drive.followTrajectorySequenceAsync(park);
+
                         }
                     }
                     break;
                 case PARKING:
                         telemetry.addData("State Machine","Park");
+                        if(!drive.isBusy())  drive.followTrajectorySequenceAsync(park);
                         currentState = AUTO_STATE.COMPLETE;
                 case COMPLETE:
                     if(!drive.isBusy()) break master;
@@ -289,6 +291,10 @@ public class RightSideAutoFSM extends LinearOpMode {
             telemetry.addData("Position", verticalSlide.getPosition());
 
             telemetry.addData("State", currentState);
+
+            telemetry.addData("X", parkX);
+            telemetry.addData("Y", parkY);
+
             telemetry.update();
 
         }
