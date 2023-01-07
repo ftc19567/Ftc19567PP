@@ -180,7 +180,7 @@ public class LeftSideAutoFSM extends LinearOpMode {
                 })
                 .lineToLinearHeading(new Pose2d(-12,-58,Math.toRadians(90)))
                 .lineToLinearHeading(new Pose2d(-12,-12,Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(-27.5,-9.5,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-24.6,-9.5,Math.toRadians(90)))
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
                     sleep(30);
@@ -192,8 +192,8 @@ public class LeftSideAutoFSM extends LinearOpMode {
                     verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,500));
                     stackHeight -= 80;
                 })
-                .lineToLinearHeading(new Pose2d(-32,-14, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(-62.5,-11.7, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-32,-16, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-61,-11, Math.toRadians(180)))
                 .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                 .addDisplacementMarker(() -> {
@@ -202,7 +202,7 @@ public class LeftSideAutoFSM extends LinearOpMode {
                     verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
                 .lineToLinearHeading(new Pose2d(-38,-17, Math.toRadians(135)))
-                .lineToLinearHeading(new Pose2d(-24.5,-9.2, Math.toRadians(77)))
+                .lineToLinearHeading(new Pose2d(-20.7,-11.5, Math.toRadians(77)))
                 .waitSeconds(0.3)
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
