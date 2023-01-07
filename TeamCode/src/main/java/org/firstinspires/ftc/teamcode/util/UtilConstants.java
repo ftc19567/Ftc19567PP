@@ -11,6 +11,7 @@ public class UtilConstants {
 
     static public final double sense = 0.55;
     static public final double slowModeSense = 0.3;
+    static public final double speedModeSense = 0.8;
 
     public static final int tagFirstId = 0;
     public static final int tagSecondId = 1;

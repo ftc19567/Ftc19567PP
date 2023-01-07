@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slowModeSense;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.speedModeSense;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.clawOuttakePos;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
@@ -27,6 +28,7 @@ import org.firstinspires.ftc.teamcode.util.UtilConstants;
 public class TeleOP extends OpMode {
 
     boolean slowMode;
+    boolean speedMode;
     double sense = UtilConstants.sense;
 
     double verticalSlidePos = 0;
@@ -92,6 +94,11 @@ public class TeleOP extends OpMode {
         if(gamepad1.back) slowMode = !slowMode;
         if(slowMode) sense = slowModeSense;
         else sense = UtilConstants.sense;
+
+        if(gamepad1.back) speedMode = !speedMode;
+        if(slowMode) sense = speedModeSense;
+        else sense = UtilConstants.sense;
+
 
         if(gamepad1.right_trigger > 0) claw.close();
         if(gamepad1.right_bumper) {
