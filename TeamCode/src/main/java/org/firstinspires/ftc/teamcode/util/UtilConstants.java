@@ -22,11 +22,10 @@ public class UtilConstants {
     public static final int slidePos1 = 1730;
     public static final int slidePos2 = 1320;
     public static final int slidePos3 = 765;
-//300, 185,
 
     public static LOCATION location= LOCATION.FIRST;
     public static int tag = 0;
 
     public static final Pose2d right = new Pose2d(33.2, -62, Math.toRadians(90));
-    public static final Pose2d left = new Pose2d(62, -38, Math.toRadians(180));
+    public static final Pose2d left = new Pose2d(-37.3, -62, Math.toRadians(90));
 }

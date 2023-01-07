@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.util.UtilConstants.right;
+import static org.firstinspires.ftc.teamcode.util.UtilConstants.left;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.slidePos1;
 import static org.firstinspires.ftc.teamcode.util.UtilConstants.verticalSpeed;
 
@@ -24,8 +24,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "Right Side", group = "official")
-public class RightSideAutoFSM extends LinearOpMode {
+@Autonomous(name = "Left Side", group = "official")
+public class LeftSideAutoFSM extends LinearOpMode {
 
     OpenCvCamera camera;
     AprilTagPipeline aprilTagDetectionPipeline;
@@ -50,10 +50,10 @@ public class RightSideAutoFSM extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
-    Claw claw; 
+    Claw claw;
     SimpleBotVerticalSlide verticalSlide;
 
-    Pose2d startPose = right;
+    Pose2d startPose = left;
 
     double parkX;
     double parkY;
@@ -154,19 +154,19 @@ public class RightSideAutoFSM extends LinearOpMode {
         //TODO: Figure out positions
         switch (location){
             case FIRST:
-                parkX = 10;
+                parkX = -10;
                 parkY = -12;
                 telemetry.addData("Parking Position","First Position");
                 telemetry.update();
                 break;
             case SECOND:
-                parkX = 35;
+                parkX = -35;
                 parkY = -12;
                 telemetry.addData("Parking Position","Second Position");
                 telemetry.update();
                 break;
             case THIRD:
-                parkX = 59;
+                parkX = -59;
                 parkY = -12;
                 telemetry.addData("Parking Position","Third Position");
                 telemetry.update();
@@ -178,9 +178,9 @@ public class RightSideAutoFSM extends LinearOpMode {
                     claw.close();
                     verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
-                .lineToLinearHeading(new Pose2d(13,-58,Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(13,-12,Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(27.5,-8.5,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-12,-58,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-12,-12,Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-27.5,-9.5,Math.toRadians(90)))
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
                     sleep(30);
@@ -192,8 +192,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                     verticalSlide.setPosition(verticalSpeed, Range.clip(stackHeight,0,500));
                     stackHeight -= 80;
                 })
-                .lineToLinearHeading(new Pose2d(32,-14, Math.toRadians(90)))
-                .lineToLinearHeading(new Pose2d(62.5,-11.7, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-32,-14, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-62.5,-11.7, Math.toRadians(180)))
                 .build();
         TrajectorySequence deliverCone = drive.trajectorySequenceBuilder(grabCone.end())
                 .addDisplacementMarker(() -> {
@@ -201,8 +201,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                     sleep(30);
                     verticalSlide.setPosition(verticalSpeed, slidePos1);
                 })
-                .lineToLinearHeading(new Pose2d(38,-17, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(24.5,-9.2, Math.toRadians(103)))
+                .lineToLinearHeading(new Pose2d(-38,-17, Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(-24.5,-9.2, Math.toRadians(77)))
                 .waitSeconds(0.3)
                 .addTemporalMarker(() -> {
                     verticalSlide.setPosition(verticalSpeed, verticalSlide.getPosition() - 250);
@@ -242,9 +242,9 @@ public class RightSideAutoFSM extends LinearOpMode {
                     currentState = AUTO_STATE.TRAVELING_TO_POLE;
                     break;
                 case TRAVELING_TO_POLE:
-                        telemetry.addData("State Machine","Traveling to Pole");
-                        telemetry.update();
-                        currentState = AUTO_STATE.DELIVERING_CONE;
+                    telemetry.addData("State Machine","Traveling to Pole");
+                    telemetry.update();
+                    currentState = AUTO_STATE.DELIVERING_CONE;
                     break;
                 case DELIVERING_CONE:
                     //TODO: add time out for drop
@@ -260,8 +260,8 @@ public class RightSideAutoFSM extends LinearOpMode {
                     }
                     break;
                 case PARKING:
-                        telemetry.addData("State Machine","Park");
-                        currentState = AUTO_STATE.COMPLETE;
+                    telemetry.addData("State Machine","Park");
+                    currentState = AUTO_STATE.COMPLETE;
                 case COMPLETE:
                     if(!drive.isBusy()) break master;
                 default:
